@@ -115,11 +115,30 @@
   color: var(--color-error);
 }
 
+.countRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  margin-top: var(--space-sm);
+}
+
 .count {
   color: var(--color-text-secondary);
   font-size: var(--font-size-sm);
-  margin-top: var(--space-sm);
   font-weight: 500;
+}
+
+.clearBtn {
+  font-size: var(--font-size-xs);
+  color: var(--color-red);
+  font-weight: 600;
+  -webkit-tap-highlight-color: transparent;
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: var(--radius-sm);
+}
+
+.clearBtn:active {
+  background: rgba(255, 71, 87, 0.08);
 }
 
 .actions {

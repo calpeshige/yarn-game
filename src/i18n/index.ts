@@ -39,6 +39,7 @@ const dict = {
   'players.add': { ja: '追加', en: 'Add' },
   'players.count': { ja: '人参加', en: ' players' },
   'players.deal': { ja: 'カードを配る', en: 'Deal Cards' },
+  'players.clearAll': { ja: '全員削除', en: 'Remove All' },
   'players.back': { ja: '‹ 戻る', en: '‹ Back' },
 
   // Card Peek

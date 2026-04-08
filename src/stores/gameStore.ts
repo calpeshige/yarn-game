@@ -11,6 +11,8 @@ interface GameActions {
   advancePeekPlayer: () => void;
   setPhase: (phase: GamePhase) => void;
   playAgain: () => void;
+  goHome: () => void;
+  clearPlayers: () => void;
   resetGame: () => void;
 }
 
@@ -110,6 +112,27 @@ export const useGameStore = create<GameStore>()(
         players: dealtPlayers,
         theme: null,
       });
+    },
+
+    goHome: () => {
+      const { players } = get();
+      const cleanPlayers = players.map((p) => ({
+        ...p,
+        cards: [],
+        hasViewed: false,
+      }));
+      set({
+        phase: 'setup',
+        theme: null,
+        currentPeekPlayerIndex: 0,
+        usedCards: [],
+        players: cleanPlayers,
+      });
+    },
+
+    clearPlayers: () => {
+      nextPlayerId = 1;
+      set({ players: [] });
     },
 
     resetGame: () => {

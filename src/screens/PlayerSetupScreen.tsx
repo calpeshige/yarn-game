@@ -14,7 +14,7 @@ const PLAYER_COLORS = [
 
 export function PlayerSetupScreen() {
   const navigate = useNavigate();
-  const { players, addPlayer, removePlayer, startGame } = useGameStore();
+  const { players, addPlayer, removePlayer, clearPlayers, startGame } = useGameStore();
   const t = useT();
   const [name, setName] = useState('');
 
@@ -97,15 +97,12 @@ export function PlayerSetupScreen() {
       </div>
 
       {players.length > 0 && (
-        <motion.p
-          className={styles.count}
-          key={players.length}
-          initial={{ scale: 1.3 }}
-          animate={{ scale: 1 }}
-          transition={{ type: 'spring' }}
-        >
-          {players.length}{t('players.count')}
-        </motion.p>
+        <div className={styles.countRow}>
+          <p className={styles.count}>{players.length}{t('players.count')}</p>
+          <button className={styles.clearBtn} onClick={clearPlayers}>
+            {t('players.clearAll')}
+          </button>
+        </div>
       )}
 
       <motion.div

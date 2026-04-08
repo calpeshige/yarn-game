@@ -20,7 +20,7 @@ const TILE_COLORS = [
 ];
 
 export function RevealScreen() {
-  const { players, resetGame, playAgain } = useGameStore();
+  const { players, goHome, playAgain } = useGameStore();
   const navigate = useNavigate();
   const t = useT();
   const [revealedIds, setRevealedIds] = useState<Set<string>>(new Set());
@@ -44,7 +44,7 @@ export function RevealScreen() {
   };
 
   const handleGoHome = () => {
-    resetGame();
+    goHome();
     navigate('/');
   };
 

@@ -22,7 +22,7 @@ function saveUserThemes(themes: Theme[]) {
 
 export function HomeScreen() {
   const navigate = useNavigate();
-  const { resetGame } = useGameStore();
+  const { goHome } = useGameStore();
   const t = useT();
   const { lang, setLang } = useLangStore();
 
@@ -33,7 +33,7 @@ export function HomeScreen() {
   const [customHigh, setCustomHigh] = useState('');
 
   const handleStart = () => {
-    resetGame();
+    goHome();
     navigate('/players');
   };
 
