@@ -11,30 +11,24 @@ interface CardProps {
 export function Card({ value, isFlipped, onClick, size = 'md' }: CardProps) {
   return (
     <div className={`${styles.cardContainer} ${styles[size]}`} onClick={onClick}>
-      <div className={styles.card}>
+      <motion.div
+        className={styles.card}
+        animate={{ rotateY: isFlipped ? 180 : 0 }}
+        transition={{ duration: 0.6, ease: 'easeInOut' }}
+      >
         {/* 裏面 */}
-        <motion.div
-          className={`${styles.face} ${styles.back}`}
-          animate={{ rotateY: isFlipped ? 180 : 0 }}
-          transition={{ duration: 0.6, ease: 'easeInOut' }}
-          style={{ transformStyle: 'preserve-3d' }}
-        >
+        <div className={`${styles.face} ${styles.back}`}>
           <div className={styles.yarnPattern}>
             <div className={styles.yarnBall} />
           </div>
           <span className={styles.backLabel}>YARN</span>
-        </motion.div>
+        </div>
 
         {/* 表面 */}
-        <motion.div
-          className={`${styles.face} ${styles.front}`}
-          animate={{ rotateY: isFlipped ? 0 : -180 }}
-          transition={{ duration: 0.6, ease: 'easeInOut' }}
-          style={{ transformStyle: 'preserve-3d' }}
-        >
+        <div className={`${styles.face} ${styles.front}`}>
           <span className={styles.number}>{value ?? '?'}</span>
-        </motion.div>
-      </div>
+        </div>
+      </motion.div>
     </div>
   );
 }

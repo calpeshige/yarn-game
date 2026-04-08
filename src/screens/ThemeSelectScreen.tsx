@@ -1,6 +1,6 @@
 import { useState, useCallback, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { useGameStore } from '../stores/gameStore';
 import { useLangStore, useT } from '../i18n';
 import { themes as themesJa } from '../data/themes_ja';
@@ -110,26 +110,20 @@ export function ThemeSelectScreen() {
       </motion.p>
 
       <div className={styles.themeCards}>
-        <AnimatePresence mode="wait">
-          {options.map((th, i) => (
-            <motion.button
-              key={`${shuffleKey}-${th.id}`}
-              className={`${styles.themeCard} ${selected?.id === th.id ? styles.selected : ''}`}
-              style={{ '--card-hue': i === 0 ? '340' : '210' } as React.CSSProperties}
-              onClick={() => setSelected(th)}
-              initial={{ opacity: 0, y: 40, rotateX: -15 }}
-              animate={{ opacity: 1, y: 0, rotateX: 0 }}
-              exit={{ opacity: 0, y: -30, scale: 0.9 }}
-              transition={{ delay: i * 0.15, type: 'spring', stiffness: 180, damping: 18 }}
-              whileTap={{ scale: 0.96 }}
-            >
-              <motion.span
-                className={styles.themeEmoji}
-                animate={{ rotate: [0, -5, 5, 0] }}
-                transition={{ duration: 2, repeat: Infinity, repeatDelay: 2 }}
-              >
-                {i === 0 ? emoji1 : emoji2}
-              </motion.span>
+        {options.map((th, i) => (
+          <motion.button
+            key={`${shuffleKey}-${th.id}`}
+            className={`${styles.themeCard} ${selected?.id === th.id ? styles.selected : ''}`}
+            style={{ '--card-hue': i === 0 ? '340' : '210' } as React.CSSProperties}
+            onClick={() => setSelected(th)}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: i * 0.1, duration: 0.3 }}
+            whileTap={{ scale: 0.97 }}
+          >
+            <span className={styles.themeEmoji}>
+              {i === 0 ? emoji1 : emoji2}
+            </span>
               <span className={styles.themeName}>{th.name}</span>
               <div className={styles.scaleBar}>
                 <span className={styles.scaleLow}>1 {th.low}</span>
@@ -146,9 +140,8 @@ export function ThemeSelectScreen() {
                   ✓
                 </motion.div>
               )}
-            </motion.button>
-          ))}
-        </AnimatePresence>
+          </motion.button>
+        ))}
       </div>
 
       <motion.button
