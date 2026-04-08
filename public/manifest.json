@@ -1,0 +1,28 @@
+{
+  "name": "YARN",
+  "short_name": "YARN",
+  "description": "糸でつながる言葉のゲーム / A word game connected by threads",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#F0F4FF",
+  "theme_color": "#FF4757",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
