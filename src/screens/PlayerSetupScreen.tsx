@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { useGameStore } from '../stores/gameStore';
 import { useT } from '../i18n';
 import { Button } from '../components/Button';
@@ -78,29 +78,22 @@ export function PlayerSetupScreen() {
       </motion.div>
 
       <div className={styles.playerList}>
-        <AnimatePresence>
-          {players.map((p, i) => (
-            <motion.div
-              key={p.id}
-              className={styles.playerCard}
-              style={{ '--player-color': PLAYER_COLORS[i % PLAYER_COLORS.length] } as React.CSSProperties}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.2 }}
+        {players.map((p, i) => (
+          <div
+            key={p.id}
+            className={styles.playerCard}
+            style={{ '--player-color': PLAYER_COLORS[i % PLAYER_COLORS.length] } as React.CSSProperties}
+          >
+            <div className={styles.playerAvatar}>{p.name[0]}</div>
+            <span className={styles.playerName}>{p.name}</span>
+            <button
+              className={styles.removeBtn}
+              onClick={() => removePlayer(p.id)}
             >
-              <div className={styles.playerAvatar}>{p.name[0]}</div>
-              <span className={styles.playerName}>{p.name}</span>
-              <motion.button
-                className={styles.removeBtn}
-                onClick={() => removePlayer(p.id)}
-                whileTap={{ scale: 0.8, rotate: 90 }}
-              >
-                &times;
-              </motion.button>
-            </motion.div>
-          ))}
-        </AnimatePresence>
+              &times;
+            </button>
+          </div>
+        ))}
       </div>
 
       {players.length > 0 && (

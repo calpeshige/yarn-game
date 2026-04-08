@@ -111,15 +111,11 @@ export function ThemeSelectScreen() {
 
       <div className={styles.themeCards}>
         {options.map((th, i) => (
-          <motion.button
-            key={`${shuffleKey}-${th.id}`}
+          <button
+            key={`slot-${i}`}
             className={`${styles.themeCard} ${selected?.id === th.id ? styles.selected : ''}`}
             style={{ '--card-hue': i === 0 ? '340' : '210' } as React.CSSProperties}
             onClick={() => setSelected(th)}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: i * 0.1, duration: 0.3 }}
-            whileTap={{ scale: 0.97 }}
           >
             <span className={styles.themeEmoji}>
               {i === 0 ? emoji1 : emoji2}
@@ -131,16 +127,9 @@ export function ThemeSelectScreen() {
                 <span className={styles.scaleHigh}>{th.high} 100</span>
               </div>
               {selected?.id === th.id && (
-                <motion.div
-                  className={styles.checkBadge}
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                  transition={{ type: 'spring', stiffness: 400, damping: 15 }}
-                >
-                  ✓
-                </motion.div>
+                <div className={styles.checkBadge}>✓</div>
               )}
-          </motion.button>
+          </button>
         ))}
       </div>
 
