@@ -18,6 +18,8 @@ export function CardPeekScreen() {
   const currentPlayer = players[currentPeekPlayerIndex];
   if (!currentPlayer) return null;
 
+  const isLastPlayer = currentPeekPlayerIndex >= players.length - 1;
+
   const handleCardTap = () => {
     if (!isRevealed) {
       setIsRevealed(true);
@@ -28,19 +30,20 @@ export function CardPeekScreen() {
   };
 
   const handleNext = () => {
-    setIsRevealed(false);
-    setShowPass(true);
-
-    const isLast = currentPeekPlayerIndex >= players.length - 1;
-    if (isLast) {
+    // カードをフリップせずにそのまま次へ遷移
+    if (isLastPlayer) {
       navigate('/theme');
     } else {
+      // 先にパス画面に切り替えてからisRevealedをリセット
+      setShowPass(true);
+      setIsRevealed(false);
       advancePeekPlayer();
     }
   };
 
   const handleReady = () => {
     setShowPass(false);
+    setIsRevealed(false);
   };
 
   const cardsToShow = currentPlayer.cards;
@@ -134,7 +137,7 @@ export function CardPeekScreen() {
         transition={{ delay: 0.3, duration: 0.4 }}
       >
         <Button variant="primary" size="lg" onClick={handleNext}>
-          {t('peek.next')}
+          {isLastPlayer ? t('peek.toTheme') : t('peek.next')}
         </Button>
       </motion.div>
     </div>

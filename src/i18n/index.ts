@@ -47,6 +47,7 @@ const dict = {
   'peek.tapToReveal': { ja: 'カードをタップして確認', en: 'Tap the card to reveal' },
   'peek.tapToHide': { ja: 'もう一度タップで隠す', en: 'Tap again to hide' },
   'peek.next': { ja: '次の人へ', en: 'Next Player' },
+  'peek.toTheme': { ja: 'お題を選ぶ', en: 'Pick a Topic' },
 
   // Theme Select
   'theme.title': { ja: 'お題を選ぼう', en: 'Pick a Topic' },
