@@ -9,7 +9,7 @@ import styles from './CardPeekScreen.module.css';
 
 export function CardPeekScreen() {
   const navigate = useNavigate();
-  const { players, currentPeekPlayerIndex, mode, markCardViewed, advancePeekPlayer } =
+  const { players, currentPeekPlayerIndex, markCardViewed, advancePeekPlayer } =
     useGameStore();
   const t = useT();
   const [isRevealed, setIsRevealed] = useState(false);

@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import type { GamePhase, GameState, Player, Theme } from '../types/game';
+import type { GamePhase, GameState, Theme } from '../types/game';
 import { dealCards } from '../utils/deck';
 
 interface GameActions {
