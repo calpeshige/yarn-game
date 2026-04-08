@@ -1,0 +1,19 @@
+.container {
+  display: flex;
+  gap: var(--space-sm);
+  align-items: center;
+}
+
+.heart {
+  font-size: var(--font-size-xl);
+  transition: all var(--transition-normal);
+}
+
+.active {
+  transform: scale(1);
+}
+
+.lost {
+  opacity: 0.3;
+  transform: scale(0.8);
+}

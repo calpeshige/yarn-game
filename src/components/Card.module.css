@@ -1,0 +1,136 @@
+.cardContainer {
+  perspective: 1200px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.sm {
+  width: 70px;
+  height: 98px;
+}
+
+.md {
+  width: 140px;
+  height: 196px;
+}
+
+.lg {
+  width: 200px;
+  height: 280px;
+}
+
+.card {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+}
+
+.face {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  border-radius: var(--radius-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-card);
+}
+
+/* Back of card - UNO-like vibrant gradient */
+.back {
+  background: var(--gradient-card-back);
+  flex-direction: column;
+  gap: var(--space-sm);
+  border: 4px solid rgba(255, 255, 255, 0.3);
+  overflow: hidden;
+  animation: float 4s ease-in-out infinite;
+}
+
+/* Decorative shine effect on card back */
+.back::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: conic-gradient(from 0deg, transparent, rgba(255,255,255,0.1), transparent 30%);
+  animation: spin-slow 6s linear infinite;
+}
+
+.yarnPattern {
+  width: 40%;
+  height: 40%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 1;
+}
+
+.yarnBall {
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #FFFFFF, rgba(255, 255, 255, 0.6));
+  border: 3px solid rgba(255, 255, 255, 0.5);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15), 0 0 20px rgba(255, 255, 255, 0.3);
+}
+
+.backLabel {
+  font-size: var(--font-size-sm);
+  font-weight: 900;
+  color: white;
+  letter-spacing: 0.3em;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  position: relative;
+  z-index: 1;
+}
+
+/* Front of card - clean white with bold number */
+.front {
+  background: white;
+  transform: rotateY(180deg);
+  border: 4px solid #F0F0F0;
+  overflow: hidden;
+}
+
+/* Diagonal color stripe like UNO */
+.front::before {
+  content: '';
+  position: absolute;
+  width: 200%;
+  height: 60%;
+  background: linear-gradient(135deg, rgba(255, 71, 87, 0.08), rgba(255, 107, 58, 0.05));
+  transform: rotate(-20deg);
+  top: 20%;
+  left: -50%;
+}
+
+.number {
+  font-size: var(--font-size-5xl);
+  font-weight: 900;
+  line-height: 1;
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  position: relative;
+  z-index: 1;
+  filter: drop-shadow(0 2px 4px rgba(255, 71, 87, 0.2));
+}
+
+.sm .backLabel {
+  font-size: var(--font-size-xs);
+}
+
+.sm .number {
+  font-size: var(--font-size-2xl);
+}
+
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}

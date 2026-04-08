@@ -1,0 +1,84 @@
+.passScreen {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xl);
+}
+
+.passCard {
+  background: var(--color-bg-card);
+  border-radius: var(--radius-xl);
+  padding: var(--space-2xl) var(--space-xl);
+  box-shadow: var(--shadow-lg);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-md);
+  width: 100%;
+  max-width: 320px;
+  border: 2px solid rgba(0, 0, 0, 0.04);
+}
+
+.passLabel {
+  font-size: var(--font-size-md);
+  color: var(--color-text-secondary);
+}
+
+.playerName {
+  font-size: var(--font-size-3xl);
+  font-weight: 900;
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.progressDots {
+  display: flex;
+  gap: 10px;
+  margin-top: var(--space-sm);
+}
+
+.dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.08);
+  transition: all var(--transition-normal);
+}
+
+.dotActive {
+  background: var(--color-red);
+  box-shadow: 0 0 10px var(--color-red-glow);
+}
+
+.dotDone {
+  background: var(--color-green);
+}
+
+.tapHint {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-md);
+  text-align: center;
+}
+
+.cardArea {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-md);
+  flex-wrap: wrap;
+}
+
+.actions {
+  margin-top: auto;
+  padding-top: var(--space-lg);
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}

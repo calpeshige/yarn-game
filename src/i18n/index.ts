@@ -1,0 +1,89 @@
+import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
+
+export type Lang = 'ja' | 'en';
+
+interface LangStore {
+  lang: Lang;
+  setLang: (lang: Lang) => void;
+}
+
+export const useLangStore = create<LangStore>()(
+  persist(
+    (set) => ({
+      lang: 'ja',
+      setLang: (lang) => set({ lang }),
+    }),
+    { name: 'yarn-lang' }
+  )
+);
+
+// ---- UI Text Dictionary ----
+const dict = {
+  // Home
+  'home.subtitle': { ja: '糸でつながる言葉のゲーム', en: 'A word game connected by threads' },
+  'home.start': { ja: 'ゲームを始める', en: 'Start Game' },
+  'home.themes': { ja: 'お題を追加・管理', en: 'Add / Manage Topics' },
+  'home.themes.close': { ja: '閉じる', en: 'Close' },
+  'home.themes.title': { ja: 'オリジナルお題', en: 'Custom Topics' },
+  'home.themes.name': { ja: 'お題名（例: こわいもの）', en: 'Topic name (e.g. Scary things)' },
+  'home.themes.low': { ja: '1に近い方', en: 'Low end (1)' },
+  'home.themes.high': { ja: '100に近い方', en: 'High end (100)' },
+  'home.themes.add': { ja: '追加する', en: 'Add' },
+  'home.themes.empty': { ja: 'まだお題がありません', en: 'No custom topics yet' },
+
+  // Player Setup
+  'players.title': { ja: 'プレイヤー登録', en: 'Player Setup' },
+  'players.instruction': { ja: 'プレイヤーを追加（2〜10人）', en: 'Add players (2-10)' },
+  'players.placeholder': { ja: '名前を入力...', en: 'Enter name...' },
+  'players.add': { ja: '追加', en: 'Add' },
+  'players.count': { ja: '人参加', en: ' players' },
+  'players.deal': { ja: 'カードを配る', en: 'Deal Cards' },
+  'players.back': { ja: '‹ 戻る', en: '‹ Back' },
+
+  // Card Peek
+  'peek.pass': { ja: 'スマホを渡してね', en: 'Pass the phone to' },
+  'peek.ready': { ja: '準備OK', en: 'Ready' },
+  'peek.tapToReveal': { ja: 'カードをタップして確認', en: 'Tap the card to reveal' },
+  'peek.tapToHide': { ja: 'もう一度タップで隠す', en: 'Tap again to hide' },
+  'peek.next': { ja: '次の人へ', en: 'Next Player' },
+
+  // Theme Select
+  'theme.title': { ja: 'お題を選ぼう', en: 'Pick a Topic' },
+  'theme.instruction': { ja: '2つのお題からひとつ選んでね', en: 'Choose one of the two topics' },
+  'theme.all': { ja: 'すべて', en: 'All' },
+  'theme.originalOnly': { ja: 'オリジナルのみ', en: 'Custom Only' },
+  'theme.shuffle': { ja: 'ほかのお題を見る', en: 'Show others' },
+  'theme.start': { ja: 'このお題で遊ぶ', en: 'Play with this topic' },
+
+  // Discussion
+  'discussion.timerSetup': { ja: '話し合いの時間を決めよう', en: 'Set discussion time' },
+  'discussion.timerStart': { ja: 'タイマースタート', en: 'Start Timer' },
+  'discussion.timerLabel': { ja: '話し合いタイム', en: 'Discussion Time' },
+  'discussion.pause': { ja: '一時停止', en: 'Pause' },
+  'discussion.resume': { ja: '再開', en: 'Resume' },
+  'discussion.set': { ja: '設定', en: 'Set' },
+  'discussion.min': { ja: '分', en: 'min' },
+  'discussion.checkLabel': { ja: '数字を忘れた？名前をタップ', en: 'Forgot your number? Tap a name' },
+  'discussion.hint': { ja: 'テーマに沿ってヒントで伝えよう', en: 'Give hints based on the topic' },
+  'discussion.rule': { ja: '数字を直接言うのはNG！', en: 'Do NOT say the number directly!' },
+  'discussion.result': { ja: '結果を見る', en: 'See Results' },
+
+  // Reveal
+  'reveal.title': { ja: '結果発表', en: 'Results' },
+  'reveal.instruction': { ja: '名前をタップしてカードを確認', en: 'Tap a name to reveal their card' },
+  'reveal.showAll': { ja: '全員のカードを見る', en: 'Reveal all cards' },
+  'reveal.home': { ja: 'ホームに戻る', en: 'Back to Home' },
+} as const;
+
+type DictKey = keyof typeof dict;
+
+export function t(key: DictKey, lang: Lang): string {
+  return dict[key]?.[lang] ?? key;
+}
+
+// Hook for convenience
+export function useT() {
+  const lang = useLangStore((s) => s.lang);
+  return (key: DictKey) => t(key, lang);
+}

@@ -1,0 +1,93 @@
+:root {
+  /* Game Colors - Vibrant UNO-style */
+  --color-red: #FF4757;
+  --color-red-light: #FF6B7A;
+  --color-red-glow: rgba(255, 71, 87, 0.25);
+  --color-blue: #3742FA;
+  --color-blue-light: #5F6CFF;
+  --color-blue-glow: rgba(55, 66, 250, 0.2);
+  --color-green: #2ED573;
+  --color-green-light: #7BED9F;
+  --color-green-glow: rgba(46, 213, 115, 0.2);
+  --color-yellow: #FFC312;
+  --color-yellow-light: #FFE066;
+  --color-yellow-glow: rgba(255, 195, 18, 0.2);
+  --color-purple: #A55EEA;
+  --color-purple-light: #D980FA;
+  --color-orange: #FF6B3A;
+  --color-pink: #FF6B9D;
+  --color-cyan: #18DCFF;
+
+  /* Backgrounds - Light & Playful */
+  --color-bg: #F0F4FF;
+  --color-bg-warm: #FFF7F0;
+  --color-bg-card: #FFFFFF;
+  --color-bg-card-hover: #F8FAFF;
+  --color-bg-surface: #E8EEFF;
+  --color-bg-overlay: rgba(0, 0, 0, 0.5);
+
+  /* Text */
+  --color-text: #1A1A3E;
+  --color-text-secondary: #5A5E8A;
+  --color-text-muted: #9CA0C0;
+
+  /* Gradients */
+  --gradient-primary: linear-gradient(135deg, #FF4757, #FF6B3A);
+  --gradient-blue: linear-gradient(135deg, #3742FA, #5F6CFF);
+  --gradient-green: linear-gradient(135deg, #2ED573, #7BED9F);
+  --gradient-yellow: linear-gradient(135deg, #FFC312, #FFE66D);
+  --gradient-purple: linear-gradient(135deg, #A55EEA, #D980FA);
+  --gradient-rainbow: linear-gradient(135deg, #FF4757, #FFC312, #2ED573, #3742FA);
+  --gradient-card-back: linear-gradient(145deg, #FF4757, #FF6B3A, #FFC312);
+  --gradient-fun: linear-gradient(135deg, #F0F4FF 0%, #FFF0F5 50%, #FFF7E6 100%);
+
+  /* Spacing (8px grid) */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+  --space-2xl: 48px;
+  --space-3xl: 64px;
+
+  /* Border Radius */
+  --radius-sm: 12px;
+  --radius-md: 16px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+  --radius-full: 9999px;
+
+  /* Typography */
+  --font-family: -apple-system, BlinkMacSystemFont, 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', sans-serif;
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-md: 1rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.375rem;
+  --font-size-2xl: 1.75rem;
+  --font-size-3xl: 2.5rem;
+  --font-size-4xl: 3.5rem;
+  --font-size-5xl: 5rem;
+
+  /* Shadows */
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.12);
+  --shadow-glow-red: 0 4px 20px var(--color-red-glow);
+  --shadow-glow-blue: 0 4px 20px var(--color-blue-glow);
+  --shadow-glow-green: 0 4px 20px var(--color-green-glow);
+  --shadow-glow-yellow: 0 4px 20px var(--color-yellow-glow);
+  --shadow-card: 0 8px 30px rgba(0, 0, 0, 0.1);
+
+  /* Transitions */
+  --transition-fast: 180ms cubic-bezier(0.25, 0.1, 0.25, 1);
+  --transition-normal: 350ms cubic-bezier(0.25, 0.1, 0.25, 1);
+  --transition-slow: 600ms cubic-bezier(0.25, 0.1, 0.25, 1);
+  --transition-bounce: 600ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  --transition-spring: 500ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+  /* Z-index */
+  --z-card: 10;
+  --z-overlay: 100;
+  --z-modal: 200;
+}

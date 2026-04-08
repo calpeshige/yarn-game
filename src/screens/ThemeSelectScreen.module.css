@@ -1,0 +1,225 @@
+.header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  margin-bottom: var(--space-sm);
+}
+
+.backBtn {
+  font-size: var(--font-size-md);
+  color: var(--color-red);
+  font-weight: 600;
+  -webkit-tap-highlight-color: transparent;
+  padding: var(--space-sm);
+}
+
+.heading {
+  font-size: var(--font-size-xl);
+  font-weight: 800;
+}
+
+.sourceTabs {
+  display: flex;
+  gap: 0;
+  width: 100%;
+  background: var(--color-bg-surface);
+  border-radius: var(--radius-md);
+  padding: 3px;
+  margin-bottom: var(--space-md);
+}
+
+.sourceTab {
+  flex: 1;
+  padding: 8px var(--space-md);
+  border-radius: calc(var(--radius-md) - 2px);
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  color: var(--color-text-secondary);
+  transition: all var(--transition-fast);
+  -webkit-tap-highlight-color: transparent;
+  text-align: center;
+}
+
+.sourceActive {
+  background: var(--color-bg-card);
+  color: var(--color-text);
+  box-shadow: var(--shadow-sm);
+}
+
+.instruction {
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+  margin-bottom: var(--space-md);
+  align-self: flex-start;
+}
+
+.themeCards {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  flex: 1;
+  justify-content: center;
+}
+
+.themeCard {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-xl) var(--space-lg);
+  background: var(--color-bg-card);
+  border-radius: var(--radius-xl);
+  border: 2.5px solid transparent;
+  box-shadow: var(--shadow-md);
+  transition: all var(--transition-normal);
+  -webkit-tap-highlight-color: transparent;
+  cursor: pointer;
+  text-align: center;
+  overflow: hidden;
+  width: 100%;
+  color: var(--color-text);
+}
+
+.themeCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg,
+    hsl(var(--card-hue, 340), 80%, 65%),
+    hsl(calc(var(--card-hue, 340) + 30), 80%, 70%)
+  );
+}
+
+.themeCard:active {
+  transform: scale(0.97);
+}
+
+.selected {
+  border-color: var(--color-red);
+  box-shadow: 0 4px 20px var(--color-red-glow);
+}
+
+.themeEmoji {
+  font-size: 2.5rem;
+}
+
+.themeName {
+  font-weight: 800;
+  font-size: var(--font-size-2xl);
+}
+
+.scaleBar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  width: 100%;
+  margin-top: var(--space-xs);
+}
+
+.scaleLow,
+.scaleHigh {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.scaleLine {
+  flex: 1;
+  height: 2px;
+  background: linear-gradient(90deg, var(--color-blue), var(--color-red));
+  border-radius: 1px;
+}
+
+.checkBadge {
+  position: absolute;
+  top: var(--space-md);
+  right: var(--space-md);
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--color-red);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+}
+
+.bottomRow {
+  display: flex;
+  gap: var(--space-md);
+  margin-top: var(--space-md);
+  align-items: center;
+}
+
+.shuffleBtn,
+.customBtn {
+  padding: var(--space-sm) var(--space-md);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  -webkit-tap-highlight-color: transparent;
+  border-radius: var(--radius-full);
+  transition: all var(--transition-fast);
+}
+
+.shuffleBtn {
+  color: var(--color-red);
+}
+
+.customBtn {
+  color: var(--color-blue);
+}
+
+.shuffleBtn:active,
+.customBtn:active {
+  background: rgba(0, 0, 0, 0.04);
+}
+
+.customForm {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  margin-top: var(--space-md);
+  overflow: hidden;
+}
+
+.customScaleRow {
+  display: flex;
+  gap: var(--space-sm);
+}
+
+.customInput {
+  flex: 1;
+  padding: 10px var(--space-md);
+  background: var(--color-bg-card);
+  border: 1.5px solid rgba(0, 0, 0, 0.08);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+  outline: none;
+  color: var(--color-text);
+}
+
+.customInput:focus {
+  border-color: var(--color-blue);
+}
+
+.customInput::placeholder {
+  color: var(--color-text-muted);
+}
+
+.actions {
+  margin-top: auto;
+  padding-top: var(--space-lg);
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
