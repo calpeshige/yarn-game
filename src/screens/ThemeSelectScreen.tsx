@@ -1,6 +1,5 @@
 import { useState, useCallback, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
 import { useGameStore } from '../stores/gameStore';
 import { useLangStore, useT } from '../i18n';
 import { themes as themesJa } from '../data/themes_ja';
@@ -26,8 +25,6 @@ function getTwoRandomThemes(pool: Theme[]): [Theme, Theme] {
   return [shuffled[0], shuffled[1]];
 }
 
-const CARD_EMOJIS = ['🎪', '🎨', '🎭', '🎯', '🎲', '🎸', '🌈', '🎠'];
-
 export function ThemeSelectScreen() {
   const navigate = useNavigate();
   const { setTheme } = useGameStore();
@@ -44,19 +41,16 @@ export function ThemeSelectScreen() {
 
   const [options, setOptions] = useState<[Theme, Theme]>(() => getTwoRandomThemes(getPool('all')));
   const [selected, setSelected] = useState<Theme | null>(null);
-  const [shuffleKey, setShuffleKey] = useState(0);
 
   const handleChangeSource = (mode: SourceMode) => {
     setSourceMode(mode);
     setOptions(getTwoRandomThemes(getPool(mode)));
     setSelected(null);
-    setShuffleKey((k) => k + 1);
   };
 
   const handleShuffle = useCallback(() => {
     setOptions(getTwoRandomThemes(getPool(sourceMode)));
     setSelected(null);
-    setShuffleKey((k) => k + 1);
   }, [sourceMode, builtinThemes, userThemes]);
 
   const handleStart = () => {
@@ -65,26 +59,14 @@ export function ThemeSelectScreen() {
     navigate('/discussion');
   };
 
-  const emoji1 = CARD_EMOJIS[shuffleKey % CARD_EMOJIS.length];
-  const emoji2 = CARD_EMOJIS[(shuffleKey + 1) % CARD_EMOJIS.length];
-
   return (
     <div className="screen">
-      <motion.div
-        className={styles.header}
-        initial={{ y: -20, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-      >
+      <div className={styles.header}>
         <h2 className={styles.heading}>{t('theme.title')}</h2>
-      </motion.div>
+      </div>
 
       {hasUserThemes && (
-        <motion.div
-          className={styles.sourceTabs}
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1 }}
-        >
+        <div className={styles.sourceTabs}>
           <button
             className={`${styles.sourceTab} ${sourceMode === 'all' ? styles.sourceActive : ''}`}
             onClick={() => handleChangeSource('all')}
@@ -97,17 +79,10 @@ export function ThemeSelectScreen() {
           >
             {t('theme.originalOnly')}
           </button>
-        </motion.div>
+        </div>
       )}
 
-      <motion.p
-        className={styles.instruction}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.2 }}
-      >
-        {t('theme.instruction')}
-      </motion.p>
+      <p className={styles.instruction}>{t('theme.instruction')}</p>
 
       <div className={styles.themeCards}>
         {options.map((th, i) => (
@@ -117,41 +92,28 @@ export function ThemeSelectScreen() {
             style={{ '--card-hue': i === 0 ? '340' : '210' } as React.CSSProperties}
             onClick={() => setSelected(th)}
           >
-            <span className={styles.themeEmoji}>
-              {i === 0 ? emoji1 : emoji2}
-            </span>
-              <span className={styles.themeName}>{th.name}</span>
-              <div className={styles.scaleBar}>
-                <span className={styles.scaleLow}>1 {th.low}</span>
-                <div className={styles.scaleLine} />
-                <span className={styles.scaleHigh}>{th.high} 100</span>
-              </div>
-              {selected?.id === th.id && (
-                <div className={styles.checkBadge}>✓</div>
-              )}
+            <span className={styles.themeName}>{th.name}</span>
+            <div className={styles.scaleBar}>
+              <span className={styles.scaleLow}>1 {th.low}</span>
+              <div className={styles.scaleLine} />
+              <span className={styles.scaleHigh}>{th.high} 100</span>
+            </div>
+            {selected?.id === th.id && (
+              <div className={styles.checkBadge}>✓</div>
+            )}
           </button>
         ))}
       </div>
 
-      <motion.button
-        className={styles.shuffleBtn}
-        onClick={handleShuffle}
-        whileTap={{ scale: 0.92, rotate: 180 }}
-        transition={{ type: 'spring', stiffness: 200 }}
-      >
+      <button className={styles.shuffleBtn} onClick={handleShuffle}>
         {t('theme.shuffle')}
-      </motion.button>
+      </button>
 
-      <motion.div
-        className={styles.actions}
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.5 }}
-      >
+      <div className={styles.actions}>
         <Button variant="primary" size="lg" disabled={!selected} onClick={handleStart}>
           {t('theme.start')}
         </Button>
-      </motion.div>
+      </div>
     </div>
   );
 }
