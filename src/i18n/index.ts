@@ -74,6 +74,7 @@ const dict = {
   'reveal.instruction': { ja: '名前をタップしてカードを確認', en: 'Tap a name to reveal their card' },
   'reveal.showAll': { ja: '全員のカードを見る', en: 'Reveal all cards' },
   'reveal.home': { ja: 'ホームに戻る', en: 'Back to Home' },
+  'reveal.playAgain': { ja: 'もう一度遊ぶ', en: 'Play Again' },
 } as const;
 
 type DictKey = keyof typeof dict;

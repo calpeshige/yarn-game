@@ -20,7 +20,7 @@ const TILE_COLORS = [
 ];
 
 export function RevealScreen() {
-  const { players, resetGame } = useGameStore();
+  const { players, resetGame, playAgain } = useGameStore();
   const navigate = useNavigate();
   const t = useT();
   const [revealedIds, setRevealedIds] = useState<Set<string>>(new Set());
@@ -36,6 +36,11 @@ export function RevealScreen() {
 
   const handleRevealAll = () => {
     setRevealedIds(new Set(players.map((p) => p.id)));
+  };
+
+  const handlePlayAgain = () => {
+    playAgain();
+    navigate('/peek');
   };
 
   const handleGoHome = () => {
@@ -131,9 +136,16 @@ export function RevealScreen() {
             {t('reveal.showAll')}
           </motion.button>
         )}
-        <Button variant="primary" size="lg" onClick={handleGoHome}>
-          {t('reveal.home')}
+        <Button variant="primary" size="lg" onClick={handlePlayAgain}>
+          {t('reveal.playAgain')}
         </Button>
+        <motion.button
+          className={styles.revealAllBtn}
+          onClick={handleGoHome}
+          whileTap={{ scale: 0.95 }}
+        >
+          {t('reveal.home')}
+        </motion.button>
       </motion.div>
     </div>
   );

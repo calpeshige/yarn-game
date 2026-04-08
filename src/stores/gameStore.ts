@@ -10,6 +10,7 @@ interface GameActions {
   markCardViewed: (playerId: string) => void;
   advancePeekPlayer: () => void;
   setPhase: (phase: GamePhase) => void;
+  playAgain: () => void;
   resetGame: () => void;
 }
 
@@ -89,6 +90,27 @@ export const useGameStore = create<GameStore>()(
     },
 
     setPhase: (phase) => set({ phase }),
+
+    playAgain: () => {
+      const { players } = get();
+      const totalNeeded = players.length;
+      const newCards = dealCards(totalNeeded, []);
+
+      let cardIndex = 0;
+      const dealtPlayers = players.map((player) => ({
+        ...player,
+        cards: [newCards[cardIndex++]],
+        hasViewed: false,
+      }));
+
+      set({
+        phase: 'card-peek',
+        usedCards: newCards,
+        currentPeekPlayerIndex: 0,
+        players: dealtPlayers,
+        theme: null,
+      });
+    },
 
     resetGame: () => {
       nextPlayerId = 1;

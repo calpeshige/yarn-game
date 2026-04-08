@@ -30,15 +30,18 @@
   position: absolute;
   width: 100%;
   height: 100%;
+  -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
   border-radius: var(--radius-lg);
   display: flex;
   align-items: center;
   justify-content: center;
   box-shadow: var(--shadow-card);
+  /* Safari fix: force GPU layer */
+  -webkit-transform: translateZ(0);
 }
 
-/* Back of card - UNO-like vibrant gradient */
+/* Back of card */
 .back {
   background: var(--gradient-card-back);
   flex-direction: column;
@@ -46,9 +49,10 @@
   border: 4px solid rgba(255, 255, 255, 0.3);
   overflow: hidden;
   animation: float 4s ease-in-out infinite;
+  /* Ensure back is behind front */
+  z-index: 1;
 }
 
-/* Decorative shine effect on card back */
 .back::before {
   content: '';
   position: absolute;
@@ -89,24 +93,14 @@
   z-index: 1;
 }
 
-/* Front of card - clean white with bold number */
+/* Front of card */
 .front {
   background: white;
   transform: rotateY(180deg);
   border: 4px solid #F0F0F0;
   overflow: hidden;
-}
-
-/* Diagonal color stripe like UNO */
-.front::before {
-  content: '';
-  position: absolute;
-  width: 200%;
-  height: 60%;
-  background: linear-gradient(135deg, rgba(255, 71, 87, 0.08), rgba(255, 107, 58, 0.05));
-  transform: rotate(-20deg);
-  top: 20%;
-  left: -50%;
+  /* Ensure front is above back when flipped */
+  z-index: 2;
 }
 
 .number {
