@@ -101,18 +101,18 @@ export function ThemeSelectScreen() {
           return (
             <motion.button
               key={`slot-${i}`}
-              className={`w-full relative flex flex-col items-center justify-center p-6 rounded-3xl transition-all duration-300 text-left overflow-hidden border-2 ${isSelected ? 'border-white shadow-[0_12px_40px_rgba(0,0,0,0.15)] scale-[1.02]' : 'border-white/40 bg-white/60 backdrop-blur-xl shadow-sm hover:scale-[1.01] hover:bg-white/80'} focus:outline-none`}
+              className={`flex-1 w-full relative flex flex-col items-center justify-center p-6 rounded-3xl transition-all duration-300 text-left overflow-hidden border-2 ${isSelected ? 'border-white shadow-[0_12px_40px_rgba(0,0,0,0.15)] scale-[1.02] z-10' : 'border-white/40 bg-white/60 backdrop-blur-xl shadow-sm hover:scale-[1.01] hover:bg-white/80'} focus:outline-none`}
               onClick={() => setSelected(th)}
               whileTap={{ scale: 0.97 }}
               style={{
                 background: isSelected ? `linear-gradient(135deg, hsl(${hue1}) 0%, hsl(${hue2}) 100%)` : ''
               }}
             >
-              <h3 className={`font-bold text-xl mb-3 ${isSelected ? 'text-white' : 'text-text-main'}`}>{th.name}</h3>
+              <h3 className={`font-bold text-2xl mb-4 ${isSelected ? 'text-white' : 'text-text-main'}`}>{th.name}</h3>
               
-              <div className="w-full flex items-center justify-between gap-3 text-xs font-bold mt-2">
+              <div className="w-full flex items-center justify-between gap-3 text-sm font-bold mt-2">
                 <span className={`${isSelected ? 'text-white/90' : 'text-blue text-opacity-80'} whitespace-nowrap`}>1 {th.low}</span>
-                <div className={`flex-1 h-1 rounded-full ${isSelected ? 'bg-white/40' : 'bg-gradient-to-r from-blue/20 via-pink/20 to-red/20'}`} />
+                <div className={`flex-1 h-1.5 rounded-full ${isSelected ? 'bg-white/40' : 'bg-gradient-to-r from-blue/20 via-pink/20 to-red/20'}`} />
                 <span className={`${isSelected ? 'text-white/90' : 'text-red text-opacity-80'} whitespace-nowrap`}>{th.high} 100</span>
               </div>
               

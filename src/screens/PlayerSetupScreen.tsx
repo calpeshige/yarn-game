@@ -114,32 +114,26 @@ export function PlayerSetupScreen() {
       </div>
 
       <div className="w-full flex flex-col gap-3 flex-1 overflow-y-auto mb-4 pb-12 custom-scrollbar pr-1 relative">
-        <AnimatePresence>
-          {players.map((p, i) => (
-            <motion.div
-              key={p.id}
-              initial={{ opacity: 0, scale: 0.9, y: 10 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.9, x: 20 }}
-              className="flex items-center gap-4 bg-white/70 backdrop-blur-xl p-3.5 pr-4 rounded-2xl shadow-sm border border-white/60 relative overflow-hidden transition-all hover:shadow-md group"
+        {players.map((p, i) => (
+          <div
+            key={p.id}
+            className="flex items-center gap-4 bg-white/70 backdrop-blur-xl p-3.5 pr-4 rounded-2xl shadow-sm border border-white/60 relative overflow-hidden transition-all hover:shadow-md group"
+          >
+            <div 
+              className="w-11 h-11 rounded-full shrink-0 flex items-center justify-center font-bold text-white shadow-md font-display text-lg"
+              style={{ background: `linear-gradient(135deg, ${PLAYER_COLORS[i % PLAYER_COLORS.length]}, ${PLAYER_COLORS[(i+1) % PLAYER_COLORS.length]})` }}
             >
-              <div 
-                className="w-11 h-11 rounded-full shrink-0 flex items-center justify-center font-bold text-white shadow-md font-display text-lg"
-                style={{ background: `linear-gradient(135deg, ${PLAYER_COLORS[i % PLAYER_COLORS.length]}, ${PLAYER_COLORS[(i+1) % PLAYER_COLORS.length]})` }}
-              >
-                {p.name[0]}
-              </div>
-              <span className="font-bold text-lg text-text-main flex-1 tracking-wide truncate">{p.name}</span>
-              <motion.button
-                className="w-8 h-8 shrink-0 flex items-center justify-center rounded-full bg-black/5 hover:bg-red/10 text-text-muted hover:text-red transition-all touch-manipulation font-bold text-xl"
-                onClick={() => removePlayer(p.id)}
-                whileTap={{ scale: 0.8 }}
-              >
-                ×
-              </motion.button>
-            </motion.div>
-          ))}
-        </AnimatePresence>
+              {p.name[0]}
+            </div>
+            <span className="font-bold text-lg text-text-main flex-1 tracking-wide truncate">{p.name}</span>
+            <button
+              className="w-8 h-8 shrink-0 flex items-center justify-center rounded-full bg-black/5 hover:bg-red/10 text-text-muted hover:text-red transition-all touch-manipulation font-bold text-xl active:scale-90"
+              onClick={() => removePlayer(p.id)}
+            >
+              ×
+            </button>
+          </div>
+        ))}
       </div>
 
       <motion.div
