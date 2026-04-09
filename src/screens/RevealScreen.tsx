@@ -174,7 +174,7 @@ export function RevealScreen() {
       </Reorder.Group>
 
       <AnimatePresence>
-        {showStamp && isAllCorrect !== null && (
+        {!isStampDismissed && isAllCorrect !== null && (
           <motion.div
             key="stamp-overlay"
             className="fixed inset-0 z-[100] flex flex-col items-center justify-center p-4 bg-white/40 dark:bg-black/40 backdrop-blur-md"
@@ -212,7 +212,7 @@ export function RevealScreen() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 1.2, duration: 0.5, type: 'spring' }}
             >
-              <Button variant="secondary" size="lg" onClick={() => setShowStamp(false)} className="w-full py-4 !bg-white/80 hover:!bg-white">
+              <Button variant="secondary" size="lg" onClick={() => setIsStampDismissed(true)} className="w-full py-4 !bg-white/80 hover:!bg-white">
                 点数を確認する
               </Button>
               {mode === 'insider' ? (
