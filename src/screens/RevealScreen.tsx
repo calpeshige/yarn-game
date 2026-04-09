@@ -89,6 +89,7 @@ export function RevealScreen() {
   const t = useT();
   const [orderedPlayers, setOrderedPlayers] = useState<Player[]>([...players]);
   const [revealedIds, setRevealedIds] = useState<Set<string>>(new Set());
+  const [showStamp, setShowStamp] = useState(false);
 
   const handleToggle = (playerId: string) => {
     setRevealedIds((prev) => {
