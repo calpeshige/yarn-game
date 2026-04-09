@@ -1,9 +1,10 @@
-import { useState, useMemo } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, Reorder } from 'framer-motion';
 import { useGameStore } from '../stores/gameStore';
 import { useT } from '../i18n';
 import { Button } from '../components/Button';
+import type { Player } from '../types/game';
 import styles from './RevealScreen.module.css';
 
 const TILE_COLORS = [
@@ -23,12 +24,8 @@ export function RevealScreen() {
   const { players, goHome, playAgain } = useGameStore();
   const navigate = useNavigate();
   const t = useT();
+  const [orderedPlayers, setOrderedPlayers] = useState<Player[]>([...players]);
   const [revealedIds, setRevealedIds] = useState<Set<string>>(new Set());
-
-  const sortedPlayers = useMemo(
-    () => [...players].sort((a, b) => b.cards[0] - a.cards[0]),
-    [players],
-  );
 
   const handleToggle = (playerId: string) => {
     setRevealedIds((prev) => {
@@ -74,58 +71,78 @@ export function RevealScreen() {
         {t('reveal.instruction')}
       </motion.p>
 
-      <div className={styles.playerList}>
-        {sortedPlayers.map((p, i) => {
+      <Reorder.Group
+        axis="y"
+        values={orderedPlayers}
+        onReorder={setOrderedPlayers}
+        className={styles.playerList}
+      >
+        {orderedPlayers.map((p, i) => {
           const isRevealed = revealedIds.has(p.id);
           const color = TILE_COLORS[i % TILE_COLORS.length];
           return (
-            <motion.button
+            <Reorder.Item
               key={p.id}
+              value={p}
               className={`${styles.playerRow} ${isRevealed ? styles.revealed : ''}`}
               style={isRevealed ? {
                 background: color.bg,
                 boxShadow: `0 4px 20px ${color.glow}`,
                 borderColor: 'transparent',
               } : {}}
-              onClick={() => handleToggle(p.id)}
               initial={{ opacity: 0, x: -30 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.15 + i * 0.08, type: 'spring', stiffness: 200 }}
-              whileTap={{ scale: 0.97 }}
+              whileDrag={{ scale: 1.03, boxShadow: '0 8px 30px rgba(0,0,0,0.15)' }}
             >
-              <span className={styles.rank}>{i + 1}</span>
-              <span className={`${styles.playerName} ${isRevealed ? styles.playerNameRevealed : ''}`}>
-                {p.name}
+              <span className={styles.dragHandle}>
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                  <circle cx="5" cy="3" r="1.5" />
+                  <circle cx="11" cy="3" r="1.5" />
+                  <circle cx="5" cy="8" r="1.5" />
+                  <circle cx="11" cy="8" r="1.5" />
+                  <circle cx="5" cy="13" r="1.5" />
+                  <circle cx="11" cy="13" r="1.5" />
+                </svg>
               </span>
-              <AnimatePresence mode="wait">
-                {isRevealed ? (
-                  <motion.span
-                    key="num"
-                    className={styles.playerNumber}
-                    initial={{ rotateX: 90, opacity: 0 }}
-                    animate={{ rotateX: 0, opacity: 1 }}
-                    exit={{ rotateX: -90, opacity: 0 }}
-                    transition={{ duration: 0.3, type: 'spring' }}
-                  >
-                    {p.cards[0]}
-                  </motion.span>
-                ) : (
-                  <motion.span
-                    key="hidden"
-                    className={styles.playerHidden}
-                    initial={{ rotateX: -90, opacity: 0 }}
-                    animate={{ rotateX: 0, opacity: 1 }}
-                    exit={{ rotateX: 90, opacity: 0 }}
-                    transition={{ duration: 0.2 }}
-                  >
-                    ?
-                  </motion.span>
-                )}
-              </AnimatePresence>
-            </motion.button>
+              <span className={styles.rank}>{i + 1}</span>
+              <button
+                className={styles.tapArea}
+                onClick={() => handleToggle(p.id)}
+              >
+                <span className={`${styles.playerName} ${isRevealed ? styles.playerNameRevealed : ''}`}>
+                  {p.name}
+                </span>
+                <AnimatePresence mode="wait">
+                  {isRevealed ? (
+                    <motion.span
+                      key="num"
+                      className={styles.playerNumber}
+                      initial={{ rotateX: 90, opacity: 0 }}
+                      animate={{ rotateX: 0, opacity: 1 }}
+                      exit={{ rotateX: -90, opacity: 0 }}
+                      transition={{ duration: 0.3, type: 'spring' }}
+                    >
+                      {p.cards[0]}
+                    </motion.span>
+                  ) : (
+                    <motion.span
+                      key="hidden"
+                      className={styles.playerHidden}
+                      initial={{ rotateX: -90, opacity: 0 }}
+                      animate={{ rotateX: 0, opacity: 1 }}
+                      exit={{ rotateX: 90, opacity: 0 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      ?
+                    </motion.span>
+                  )}
+                </AnimatePresence>
+              </button>
+            </Reorder.Item>
           );
         })}
-      </div>
+      </Reorder.Group>
 
       <motion.div
         className={styles.bottomActions}

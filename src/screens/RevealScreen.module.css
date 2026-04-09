@@ -17,24 +17,25 @@
   gap: var(--space-sm);
   flex: 1;
   justify-content: center;
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
 .playerRow {
   display: flex;
   align-items: center;
-  gap: var(--space-md);
-  padding: var(--space-md) var(--space-lg);
+  gap: var(--space-sm);
+  padding: var(--space-md) var(--space-md);
   background: var(--color-bg-card);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-md);
   border: 2px solid rgba(0, 0, 0, 0.04);
   -webkit-tap-highlight-color: transparent;
-  cursor: pointer;
   color: var(--color-text);
   width: 100%;
-  text-align: left;
-  perspective: 600px;
-  transition: border-color var(--transition-fast);
+  touch-action: none;
+  user-select: none;
 }
 
 .revealed {
@@ -42,15 +43,48 @@
   border-color: transparent;
 }
 
+.dragHandle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-muted);
+  cursor: grab;
+  padding: var(--space-xs);
+  flex-shrink: 0;
+}
+
+.dragHandle:active {
+  cursor: grabbing;
+}
+
+.revealed .dragHandle {
+  color: rgba(255, 255, 255, 0.5);
+}
+
 .rank {
   font-size: var(--font-size-lg);
   font-weight: 900;
-  min-width: 28px;
+  min-width: 24px;
   color: var(--color-text-muted);
+  flex-shrink: 0;
+  text-align: center;
 }
 
 .revealed .rank {
   color: rgba(255, 255, 255, 0.7);
+}
+
+.tapArea {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  background: none;
+  border: none;
+  padding: var(--space-xs) 0;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  min-width: 0;
 }
 
 .playerName {
@@ -58,6 +92,7 @@
   font-size: var(--font-size-lg);
   font-weight: 700;
   color: var(--color-text);
+  text-align: left;
 }
 
 .playerNameRevealed {
@@ -71,6 +106,7 @@
   text-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
   min-width: 48px;
   text-align: right;
+  flex-shrink: 0;
 }
 
 .playerHidden {
@@ -79,6 +115,7 @@
   color: var(--color-text-muted);
   min-width: 48px;
   text-align: right;
+  flex-shrink: 0;
 }
 
 .bottomActions {
