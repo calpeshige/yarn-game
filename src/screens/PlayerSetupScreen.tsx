@@ -86,7 +86,7 @@ export function PlayerSetupScreen() {
         transition={{ delay: 0.2, duration: 0.3 }}
       >
         <input
-          className="flex-1 bg-white/90 backdrop-blur-sm border border-white/80 rounded-2xl px-5 py-4 text-base font-medium focus:outline-none focus:ring-4 focus:ring-blue/20 transition-all shadow-inner"
+          className="flex-1 min-w-0 bg-white/90 backdrop-blur-sm border border-white/80 rounded-2xl px-5 h-14 text-base font-medium focus:outline-none focus:ring-4 focus:ring-blue/20 transition-all shadow-inner"
           type="text"
           placeholder={t('players.placeholder')}
           value={name}
@@ -94,14 +94,14 @@ export function PlayerSetupScreen() {
           onKeyDown={handleKeyDown}
           maxLength={10}
         />
-        <Button
-          variant="secondary"
-          className="px-6 rounded-2xl w-24 border-white/80 shrink-0 shadow-[0_4px_15px_rgba(0,0,0,0.05)] text-blue font-black"
+        <motion.button
+          className="h-14 px-5 rounded-2xl shrink-0 bg-white/70 backdrop-blur-md border border-white/80 shadow-[0_4px_15px_rgba(0,0,0,0.05)] text-blue font-black disabled:opacity-50 transition-all hover:bg-white"
           onClick={handleAdd}
           disabled={!name.trim() || players.length >= 10}
+          whileTap={{ scale: 0.95 }}
         >
           {t('players.add')}
-        </Button>
+        </motion.button>
       </motion.div>
 
       <div className="w-full flex justify-between items-center mb-3 px-2">
@@ -118,21 +118,20 @@ export function PlayerSetupScreen() {
           {players.map((p, i) => (
             <motion.div
               key={p.id}
-              layout
               initial={{ opacity: 0, scale: 0.9, y: 10 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.9, x: 20 }}
               className="flex items-center gap-4 bg-white/70 backdrop-blur-xl p-3.5 pr-4 rounded-2xl shadow-sm border border-white/60 relative overflow-hidden transition-all hover:shadow-md group"
             >
               <div 
-                className="w-11 h-11 rounded-full flex items-center justify-center font-bold text-white shadow-md font-display text-lg"
+                className="w-11 h-11 rounded-full shrink-0 flex items-center justify-center font-bold text-white shadow-md font-display text-lg"
                 style={{ background: `linear-gradient(135deg, ${PLAYER_COLORS[i % PLAYER_COLORS.length]}, ${PLAYER_COLORS[(i+1) % PLAYER_COLORS.length]})` }}
               >
                 {p.name[0]}
               </div>
-              <span className="font-bold text-lg text-text-main flex-1 tracking-wide">{p.name}</span>
+              <span className="font-bold text-lg text-text-main flex-1 tracking-wide truncate">{p.name}</span>
               <motion.button
-                className="w-8 h-8 flex items-center justify-center rounded-full bg-black/5 hover:bg-red/10 text-text-muted hover:text-red transition-all touch-manipulation font-bold text-xl"
+                className="w-8 h-8 shrink-0 flex items-center justify-center rounded-full bg-black/5 hover:bg-red/10 text-text-muted hover:text-red transition-all touch-manipulation font-bold text-xl"
                 onClick={() => removePlayer(p.id)}
                 whileTap={{ scale: 0.8 }}
               >
