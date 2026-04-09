@@ -19,13 +19,12 @@ const TILE_COLORS = [
   { bg: 'linear-gradient(135deg, #A55EEA, #3742FA)', glow: 'rgba(165, 94, 234, 0.4)' },
 ];
 
-function PlayerReorderItem({ player, index, color, isRevealed, onToggle, isCorrect }: {
+function PlayerReorderItem({ player, index, color, isRevealed, onToggle }: {
   player: Player;
   index: number;
   color: { bg: string; glow: string };
   isRevealed: boolean;
   onToggle: () => void;
-  isCorrect: boolean | null;
 }) {
   return (
     <Reorder.Item
@@ -79,19 +78,6 @@ function PlayerReorderItem({ player, index, color, isRevealed, onToggle, isCorre
           )}
         </AnimatePresence>
       </button>
-      <AnimatePresence>
-        {isCorrect !== null && (
-          <motion.span
-            className={`absolute -top-2 -right-2 w-8 h-8 rounded-full flex items-center justify-center text-white text-xs font-black shadow-lg ${isCorrect ? 'bg-green' : 'bg-red'}`}
-            initial={{ scale: 0, rotate: -45 }}
-            animate={{ scale: 1, rotate: 0 }}
-            exit={{ scale: 0 }}
-            transition={{ type: 'spring', stiffness: 400, damping: 15 }}
-          >
-            {isCorrect ? '○' : '×'}
-          </motion.span>
-        )}
-      </AnimatePresence>
     </Reorder.Item>
   );
 }
@@ -134,14 +120,10 @@ export function RevealScreen() {
 
   const allRevealed = revealedIds.size === players.length;
 
-  // 正解の順番（点数高い順）
-  const correctOrder = [...players].sort((a, b) => b.cards[0] - a.cards[0]);
-
-  // 各カードが正しい位置にあるか判定（全公開時のみ）
-  const getCorrectness = (playerId: string, index: number): boolean | null => {
-    if (!allRevealed) return null;
-    return correctOrder[index]?.id === playerId;
-  };
+  // 全公開時に順番が全て正しいか判定
+  const isAllCorrect = allRevealed
+    ? orderedPlayers.every((p, i, arr) => i === 0 || arr[i - 1].cards[0] >= p.cards[0])
+    : null;
 
   return (
     <div className="screen-container pt-6 pb-8 justify-start h-full relative">
@@ -185,11 +167,24 @@ export function RevealScreen() {
               color={color}
               isRevealed={isRevealed}
               onToggle={() => handleToggle(p.id)}
-              isCorrect={getCorrectness(p.id, i)}
             />
           );
         })}
       </Reorder.Group>
+
+      <AnimatePresence>
+        {isAllCorrect !== null && (
+          <motion.div
+            className={`w-full py-4 rounded-2xl text-center font-black text-xl tracking-wide shadow-lg mt-4 ${isAllCorrect ? 'bg-gradient-to-r from-green to-teal text-white' : 'bg-gradient-to-r from-red to-orange text-white'}`}
+            initial={{ opacity: 0, scale: 0.8, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.8 }}
+            transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+          >
+            {isAllCorrect ? t('reveal.success') : t('reveal.fail')}
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       <motion.div
         className="w-full flex flex-col gap-3 mt-auto pt-6"

@@ -86,6 +86,8 @@ const dict = {
   'reveal.home': { ja: 'ホームに戻る', en: 'Back to Home' },
   'reveal.playAgain': { ja: 'もう一度遊ぶ', en: 'Play Again' },
   'reveal.toVote': { ja: '千里眼を当てよう', en: 'Find the Clairvoyant' },
+  'reveal.success': { ja: '成功！', en: 'Success!' },
+  'reveal.fail': { ja: '失敗...', en: 'Failed...' },
 
   // Insider Vote
   'vote.title': { ja: '千里眼は誰？', en: 'Who is the Clairvoyant?' },
