@@ -14,7 +14,7 @@ const PLAYER_COLORS = [
 
 export function PlayerSetupScreen() {
   const navigate = useNavigate();
-  const { players, addPlayer, removePlayer, clearPlayers, startGame } = useGameStore();
+  const { players, addPlayer, removePlayer, clearPlayers, startGame, mode, setMode } = useGameStore();
   const t = useT();
   const [name, setName] = useState('');
 
@@ -49,6 +49,24 @@ export function PlayerSetupScreen() {
         </button>
         <h2 className={styles.heading}>{t('players.title')}</h2>
       </motion.div>
+
+      <div className={styles.modeTabs}>
+        <button
+          className={`${styles.modeTab} ${mode === 'standard' ? styles.modeActive : ''}`}
+          onClick={() => setMode('standard')}
+        >
+          {t('players.modeStandard')}
+        </button>
+        <button
+          className={`${styles.modeTab} ${mode === 'insider' ? styles.modeActive : ''}`}
+          onClick={() => setMode('insider')}
+        >
+          {t('players.modeInsider')}
+        </button>
+      </div>
+      {mode === 'insider' && (
+        <p className={styles.modeDesc}>{t('players.insiderDesc')}</p>
+      )}
 
       <p className={styles.instruction}>{t('players.instruction')}</p>
 

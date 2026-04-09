@@ -9,7 +9,7 @@ import styles from './CardPeekScreen.module.css';
 
 export function CardPeekScreen() {
   const navigate = useNavigate();
-  const { players, currentPeekPlayerIndex, markCardViewed, advancePeekPlayer } =
+  const { players, currentPeekPlayerIndex, markCardViewed, advancePeekPlayer, mode, insiderId } =
     useGameStore();
   const t = useT();
   const [isRevealed, setIsRevealed] = useState(false);
@@ -46,6 +46,7 @@ export function CardPeekScreen() {
     setIsRevealed(false);
   };
 
+  const isInsider = mode === 'insider' && currentPlayer.id === insiderId;
   const cardsToShow = currentPlayer.cards;
 
   if (showPass) {
@@ -129,6 +130,26 @@ export function CardPeekScreen() {
           </div>
         ))}
       </motion.div>
+
+      {isInsider && isRevealed && (
+        <motion.div
+          className={styles.insiderInfo}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3 }}
+        >
+          <p className={styles.insiderLabel}>{t('peek.insiderLabel')}</p>
+          <div className={styles.insiderList}>
+            {players.filter((p) => p.id !== currentPlayer.id).map((p) => (
+              <div key={p.id} className={styles.insiderRow}>
+                <span className={styles.insiderName}>{p.name}</span>
+                <span className={styles.insiderNum}>{p.cards[0]}</span>
+              </div>
+            ))}
+          </div>
+          <p className={styles.insiderHint}>{t('peek.insiderHint')}</p>
+        </motion.div>
+      )}
 
       <motion.div
         className={styles.actions}

@@ -1,15 +1,19 @@
 import { create } from 'zustand';
-import type { GamePhase, GameState, Theme } from '../types/game';
+import type { GamePhase, GameMode, GameState, Theme } from '../types/game';
 import { dealCards } from '../utils/deck';
 
 interface GameActions {
   addPlayer: (name: string) => void;
   removePlayer: (id: string) => void;
   setTheme: (theme: Theme) => void;
+  setMode: (mode: GameMode) => void;
   startGame: () => void;
   markCardViewed: (playerId: string) => void;
   advancePeekPlayer: () => void;
   setPhase: (phase: GamePhase) => void;
+  castVote: (targetId: string) => void;
+  advanceVoter: () => void;
+  resetVotes: () => void;
   playAgain: () => void;
   goHome: () => void;
   clearPlayers: () => void;
@@ -20,10 +24,14 @@ type GameStore = GameState & GameActions;
 
 const initialState: GameState = {
   phase: 'setup',
+  mode: 'standard',
   players: [],
   theme: null,
   currentPeekPlayerIndex: 0,
   usedCards: [],
+  insiderId: null,
+  insiderVotes: [],
+  currentVoterIndex: 0,
 };
 
 let nextPlayerId = 1;
@@ -47,8 +55,10 @@ export const useGameStore = create<GameStore>()(
 
     setTheme: (theme) => set({ theme }),
 
+    setMode: (mode) => set({ mode }),
+
     startGame: () => {
-      const { players } = get();
+      const { players, mode } = get();
       const cleanPlayers = players.map((p) => ({
         ...p,
         cards: [],
@@ -64,12 +74,20 @@ export const useGameStore = create<GameStore>()(
         cards: [newCards[cardIndex++]],
       }));
 
+      // Pick random insider
+      const insiderId = mode === 'insider'
+        ? dealtPlayers[Math.floor(Math.random() * dealtPlayers.length)].id
+        : null;
+
       set({
         phase: 'card-peek',
         usedCards: newCards,
         currentPeekPlayerIndex: 0,
         players: dealtPlayers,
         theme: null,
+        insiderId,
+        insiderVotes: [],
+        currentVoterIndex: 0,
       });
     },
 
@@ -93,8 +111,25 @@ export const useGameStore = create<GameStore>()(
 
     setPhase: (phase) => set({ phase }),
 
+    castVote: (targetId) => {
+      const { players, currentVoterIndex } = get();
+      const voter = players[currentVoterIndex];
+      if (!voter) return;
+      set((state) => ({
+        insiderVotes: [...state.insiderVotes, { voterId: voter.id, targetId }],
+      }));
+    },
+
+    advanceVoter: () => {
+      set((state) => ({ currentVoterIndex: state.currentVoterIndex + 1 }));
+    },
+
+    resetVotes: () => {
+      set({ insiderVotes: [], currentVoterIndex: 0 });
+    },
+
     playAgain: () => {
-      const { players } = get();
+      const { players, mode } = get();
       const totalNeeded = players.length;
       const newCards = dealCards(totalNeeded, []);
 
@@ -105,12 +140,19 @@ export const useGameStore = create<GameStore>()(
         hasViewed: false,
       }));
 
+      const insiderId = mode === 'insider'
+        ? dealtPlayers[Math.floor(Math.random() * dealtPlayers.length)].id
+        : null;
+
       set({
         phase: 'card-peek',
         usedCards: newCards,
         currentPeekPlayerIndex: 0,
         players: dealtPlayers,
         theme: null,
+        insiderId,
+        insiderVotes: [],
+        currentVoterIndex: 0,
       });
     },
 
@@ -127,6 +169,9 @@ export const useGameStore = create<GameStore>()(
         currentPeekPlayerIndex: 0,
         usedCards: [],
         players: cleanPlayers,
+        insiderId: null,
+        insiderVotes: [],
+        currentVoterIndex: 0,
       });
     },
 

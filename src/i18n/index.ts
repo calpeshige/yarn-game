@@ -42,6 +42,11 @@ const dict = {
   'players.clearAll': { ja: '全員削除', en: 'Remove All' },
   'players.back': { ja: '‹ 戻る', en: '‹ Back' },
 
+  // Player Mode
+  'players.modeStandard': { ja: '通常モード', en: 'Standard' },
+  'players.modeInsider': { ja: '千里眼モード', en: 'Clairvoyant' },
+  'players.insiderDesc': { ja: '1人だけ全員の数字が見える「千里眼」が紛れます。議論の後、千里眼が誰か当てよう！', en: 'One player secretly sees all numbers. After discussion, guess who the Clairvoyant is!' },
+
   // Card Peek
   'peek.pass': { ja: 'スマホを渡してね', en: 'Pass the phone to' },
   'peek.ready': { ja: '準備OK', en: 'Ready' },
@@ -49,6 +54,8 @@ const dict = {
   'peek.tapToHide': { ja: 'もう一度タップで隠す', en: 'Tap again to hide' },
   'peek.next': { ja: '次の人へ', en: 'Next Player' },
   'peek.toTheme': { ja: 'お題を選ぶ', en: 'Pick a Topic' },
+  'peek.insiderLabel': { ja: 'あなたは千里眼です！全員の数字：', en: "You're the Clairvoyant! Everyone's numbers:" },
+  'peek.insiderHint': { ja: 'バレないように議論を誘導しよう', en: 'Guide the discussion without getting caught' },
 
   // Theme Select
   'theme.title': { ja: 'お題を選ぼう', en: 'Pick a Topic' },
@@ -77,6 +84,24 @@ const dict = {
   'reveal.showAll': { ja: '全員のカードを見る', en: 'Reveal all cards' },
   'reveal.home': { ja: 'ホームに戻る', en: 'Back to Home' },
   'reveal.playAgain': { ja: 'もう一度遊ぶ', en: 'Play Again' },
+  'reveal.toVote': { ja: '千里眼を当てよう', en: 'Find the Clairvoyant' },
+
+  // Insider Vote
+  'vote.title': { ja: '千里眼は誰？', en: 'Who is the Clairvoyant?' },
+  'vote.pass': { ja: 'スマホを渡してね', en: 'Pass the phone to' },
+  'vote.ready': { ja: '投票する', en: 'Vote' },
+  'vote.instruction': { ja: '千里眼だと思う人を選んでね', en: 'Choose who you think is the Clairvoyant' },
+  'vote.confirm': { ja: '決定', en: 'Confirm' },
+  'vote.next': { ja: '次の人へ', en: 'Next' },
+
+  // Insider Result
+  'result.title': { ja: '投票結果', en: 'Vote Results' },
+  'result.tie': { ja: '同票です！もう一度投票してください', en: "It's a tie! Vote again" },
+  'result.revote': { ja: '再投票', en: 'Vote Again' },
+  'result.topVoted': { ja: 'が最多票！', en: ' got the most votes!' },
+  'result.insiderWas': { ja: '千里眼は...', en: 'The Clairvoyant was...' },
+  'result.caught': { ja: '千里眼を見破った！', en: 'The Clairvoyant was caught!' },
+  'result.escaped': { ja: '千里眼が逃げ切った！', en: 'The Clairvoyant escaped!' },
 } as const;
 
 type DictKey = keyof typeof dict;

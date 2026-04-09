@@ -21,7 +21,7 @@ const TILE_COLORS = [
 ];
 
 export function RevealScreen() {
-  const { players, goHome, playAgain } = useGameStore();
+  const { players, goHome, playAgain, mode, resetVotes } = useGameStore();
   const navigate = useNavigate();
   const t = useT();
   const [orderedPlayers, setOrderedPlayers] = useState<Player[]>([...players]);
@@ -38,6 +38,11 @@ export function RevealScreen() {
 
   const handleRevealAll = () => {
     setRevealedIds(new Set(players.map((p) => p.id)));
+  };
+
+  const handleToVote = () => {
+    resetVotes();
+    navigate('/insider-vote');
   };
 
   const handlePlayAgain = () => {
@@ -159,9 +164,15 @@ export function RevealScreen() {
             {t('reveal.showAll')}
           </motion.button>
         )}
-        <Button variant="primary" size="lg" onClick={handlePlayAgain}>
-          {t('reveal.playAgain')}
-        </Button>
+        {mode === 'insider' ? (
+          <Button variant="primary" size="lg" onClick={handleToVote}>
+            {t('reveal.toVote')}
+          </Button>
+        ) : (
+          <Button variant="primary" size="lg" onClick={handlePlayAgain}>
+            {t('reveal.playAgain')}
+          </Button>
+        )}
         <motion.button
           className={styles.revealAllBtn}
           onClick={handleGoHome}

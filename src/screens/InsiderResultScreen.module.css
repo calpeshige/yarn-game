@@ -1,0 +1,124 @@
+.heading {
+  font-size: var(--font-size-2xl);
+  font-weight: 900;
+  margin-bottom: var(--space-lg);
+}
+
+.voteList {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.voteRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-sm) var(--space-lg);
+  background: var(--color-bg-card);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+.voterName {
+  flex: 1;
+  font-size: var(--font-size-md);
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.arrow {
+  font-size: var(--font-size-lg);
+  color: var(--color-text-muted);
+}
+
+.targetName {
+  flex: 1;
+  font-size: var(--font-size-md);
+  font-weight: 700;
+  color: var(--color-red);
+  text-align: right;
+}
+
+.resultArea {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-lg);
+  padding: var(--space-xl) 0;
+}
+
+.tieNames {
+  font-size: var(--font-size-xl);
+  font-weight: 900;
+  color: var(--color-text);
+  text-align: center;
+}
+
+.tieText {
+  font-size: var(--font-size-md);
+  color: var(--color-text-secondary);
+  text-align: center;
+}
+
+.topVoted {
+  font-size: var(--font-size-lg);
+  font-weight: 800;
+  color: var(--color-text);
+  text-align: center;
+}
+
+.revealArea {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.insiderName {
+  font-size: var(--font-size-4xl);
+  font-weight: 900;
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.caughtText {
+  font-size: var(--font-size-lg);
+  font-weight: 800;
+  color: var(--color-green);
+}
+
+.escapedText {
+  font-size: var(--font-size-lg);
+  font-weight: 800;
+  color: var(--color-red);
+}
+
+.bottomActions {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-md);
+  padding-top: var(--space-lg);
+  width: 100%;
+}
+
+.homeBtn {
+  padding: var(--space-sm) var(--space-lg);
+  font-size: var(--font-size-sm);
+  color: var(--color-red);
+  font-weight: 700;
+  -webkit-tap-highlight-color: transparent;
+  border-radius: var(--radius-full);
+  transition: all var(--transition-fast);
+}
+
+.homeBtn:active {
+  background: rgba(255, 71, 87, 0.08);
+}
