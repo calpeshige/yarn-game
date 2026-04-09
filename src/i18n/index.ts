@@ -81,7 +81,7 @@ const dict = {
 
   // Reveal
   'reveal.title': { ja: '結果発表', en: 'Results' },
-  'reveal.instruction': { ja: '並べ替えて予想しよう / タップで数字を確認', en: 'Drag to reorder / Tap to reveal' },
+  'reveal.instruction': { ja: '点数が高い順に並べ替えよう / タップで数字を確認', en: 'Sort by highest score / Tap to reveal' },
   'reveal.showAll': { ja: '全員のカードを見る', en: 'Reveal all cards' },
   'reveal.home': { ja: 'ホームに戻る', en: 'Back to Home' },
   'reveal.playAgain': { ja: 'もう一度遊ぶ', en: 'Play Again' },
