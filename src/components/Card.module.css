@@ -15,8 +15,8 @@
 }
 
 .lg {
-  width: 200px;
-  height: 280px;
+  width: min(280px, 65vw);
+  height: min(392px, 91vw);
 }
 
 .card {

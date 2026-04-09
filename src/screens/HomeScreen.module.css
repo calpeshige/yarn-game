@@ -102,6 +102,11 @@
 .tmRow {
   display: flex;
   gap: var(--space-sm);
+  width: 100%;
+}
+
+.tmRow .tmInput {
+  min-width: 0;
 }
 
 .tmInput {
