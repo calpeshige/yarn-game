@@ -206,19 +206,6 @@ export function DiscussionScreen() {
         </div>
       </motion.div>
 
-      <div className="w-full mb-8">
-        <div className="bg-blue/5 border border-blue/10 rounded-2xl p-4 text-center">
-          <p className="text-sm text-text-secondary font-medium mb-1">{t('discussion.hint')}</p>
-          <motion.p
-            className="text-blue font-bold tracking-wide"
-            animate={{ scale: [1, 1.02, 1] }}
-            transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-          >
-            {t('discussion.rule')}
-          </motion.p>
-        </div>
-      </div>
-
       <motion.div
         className="w-full mt-auto mb-4"
         initial={{ opacity: 0 }}

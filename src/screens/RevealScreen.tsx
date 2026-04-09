@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { motion, AnimatePresence, Reorder, useDragControls } from 'framer-motion';
+import { motion, AnimatePresence, Reorder } from 'framer-motion';
 import { useGameStore } from '../stores/gameStore';
 import { useT } from '../i18n';
 import { Button } from '../components/Button';
@@ -19,49 +19,40 @@ const TILE_COLORS = [
   { bg: 'linear-gradient(135deg, #A55EEA, #3742FA)', glow: 'rgba(165, 94, 234, 0.4)' },
 ];
 
-function PlayerReorderItem({ player, index, color, isRevealed, onToggle }: any) {
-  const dragControls = useDragControls();
-
+function PlayerReorderItem({ player, index, color, isRevealed, onToggle, isCorrect }: {
+  player: Player;
+  index: number;
+  color: { bg: string; glow: string };
+  isRevealed: boolean;
+  onToggle: () => void;
+  isCorrect: boolean | null;
+}) {
   return (
     <Reorder.Item
       value={player}
-      dragListener={false}
-      dragControls={dragControls}
-      className={`w-full flex flex-shrink-0 items-center gap-3 p-3.5 bg-white/70 backdrop-blur-xl rounded-2xl relative ${isRevealed ? 'text-white' : 'text-text-main border border-white/60 shadow-sm'}`}
+      className={`w-full flex flex-shrink-0 items-center gap-3 p-3.5 bg-white/70 backdrop-blur-xl rounded-2xl relative cursor-grab active:cursor-grabbing touch-none ${isRevealed ? 'text-white' : 'text-text-main border border-white/60 shadow-sm'}`}
       style={isRevealed ? {
         background: color.bg,
         border: '1px solid rgba(255,255,255,0.4)',
       } : {}}
       initial={{ opacity: 0, x: -30 }}
-      animate={{ 
-        opacity: 1, 
-        x: 0, 
-        transition: { delay: 0.15 + index * 0.08, type: 'spring' } 
+      animate={{
+        opacity: 1,
+        x: 0,
+        transition: { delay: 0.15 + index * 0.08, type: 'spring' }
       }}
       transition={{ type: 'spring', stiffness: 500, damping: 30, mass: 0.8 }}
       whileDrag={{ scale: 1.05, zIndex: 50, cursor: 'grabbing' }}
     >
-      <span 
-        className={`flex items-center justify-center w-8 h-8 cursor-grab active:cursor-grabbing touch-none ${isRevealed ? 'text-white/60' : 'text-text-muted/50'}`}
-        onPointerDown={(e) => dragControls.start(e)}
-      >
-        <svg width="18" height="18" viewBox="0 0 16 16" fill="currentColor">
-          <circle cx="5" cy="3" r="1.5" />
-          <circle cx="11" cy="3" r="1.5" />
-          <circle cx="5" cy="8" r="1.5" />
-          <circle cx="11" cy="8" r="1.5" />
-          <circle cx="5" cy="13" r="1.5" />
-          <circle cx="11" cy="13" r="1.5" />
-        </svg>
-      </span>
       <span className={`font-black text-xl w-6 text-center font-display ${isRevealed ? 'text-white/80' : 'text-text-muted/40'}`}>{index + 1}</span>
+      <span className={`font-bold text-lg truncate flex-1 ${isRevealed ? 'text-white' : 'text-text-main'}`}>
+        {player.name}
+      </span>
       <button
-        className="flex-1 flex justify-between items-center text-left"
-        onClick={onToggle}
+        className="touch-auto flex items-center justify-center min-w-[48px]"
+        onClick={(e) => { e.stopPropagation(); onToggle(); }}
+        onPointerDown={(e) => e.stopPropagation()}
       >
-        <span className={`font-bold text-lg truncate pr-2 ${isRevealed ? 'text-white' : 'text-text-main'}`}>
-          {player.name}
-        </span>
         <AnimatePresence mode="wait">
           {isRevealed ? (
             <motion.span
@@ -88,6 +79,19 @@ function PlayerReorderItem({ player, index, color, isRevealed, onToggle }: any) 
           )}
         </AnimatePresence>
       </button>
+      <AnimatePresence>
+        {isCorrect !== null && (
+          <motion.span
+            className={`absolute -top-2 -right-2 w-8 h-8 rounded-full flex items-center justify-center text-white text-xs font-black shadow-lg ${isCorrect ? 'bg-green' : 'bg-red'}`}
+            initial={{ scale: 0, rotate: -45 }}
+            animate={{ scale: 1, rotate: 0 }}
+            exit={{ scale: 0 }}
+            transition={{ type: 'spring', stiffness: 400, damping: 15 }}
+          >
+            {isCorrect ? '○' : '×'}
+          </motion.span>
+        )}
+      </AnimatePresence>
     </Reorder.Item>
   );
 }
@@ -129,6 +133,15 @@ export function RevealScreen() {
   };
 
   const allRevealed = revealedIds.size === players.length;
+
+  // 正解の順番（点数高い順）
+  const correctOrder = [...players].sort((a, b) => b.cards[0] - a.cards[0]);
+
+  // 各カードが正しい位置にあるか判定（全公開時のみ）
+  const getCorrectness = (playerId: string, index: number): boolean | null => {
+    if (!allRevealed) return null;
+    return correctOrder[index]?.id === playerId;
+  };
 
   return (
     <div className="screen-container pt-6 pb-8 justify-start h-full relative">
@@ -172,6 +185,7 @@ export function RevealScreen() {
               color={color}
               isRevealed={isRevealed}
               onToggle={() => handleToggle(p.id)}
+              isCorrect={getCorrectness(p.id, i)}
             />
           );
         })}
