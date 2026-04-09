@@ -88,6 +88,7 @@ const dict = {
   'reveal.toVote': { ja: '千里眼を当てよう', en: 'Find the Clairvoyant' },
   'reveal.success': { ja: '成功！', en: 'Success!' },
   'reveal.fail': { ja: '失敗...', en: 'Failed...' },
+  'reveal.checkScores': { ja: '点数を確認する', en: 'Check Scores' },
 
   // Insider Vote
   'vote.title': { ja: '千里眼は誰？', en: 'Who is the Clairvoyant?' },

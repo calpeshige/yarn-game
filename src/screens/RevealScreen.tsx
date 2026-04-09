@@ -201,7 +201,7 @@ export function RevealScreen() {
               
               {/* テキスト本体： 白フチのようなドロップシャドウをつけてどんな環境でも文字を目立たせる */}
               <h2 
-                className="relative z-10 text-6xl md:text-8xl font-black tracking-widest uppercase font-display"
+                className="relative z-10 text-[11vw] sm:text-5xl md:text-7xl font-black tracking-wider uppercase font-display text-center leading-none"
                 style={{ 
                   WebkitTextStroke: isAllCorrect ? '1px var(--color-green)' : '1px var(--color-red)'
                 }}
@@ -218,7 +218,7 @@ export function RevealScreen() {
               transition={{ delay: 1.2, duration: 0.3 }}
             >
               <Button variant="secondary" size="lg" onClick={() => setIsStampDismissed(true)} className="w-full py-4 !bg-white/80 hover:!bg-white">
-                点数を確認する
+                {t('reveal.checkScores')}
               </Button>
               {mode === 'insider' ? (
                 <Button variant="primary" size="lg" onClick={handleToVote} className="w-full py-4 shadow-lg shadow-blue/30">
