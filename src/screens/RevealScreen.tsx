@@ -176,6 +176,7 @@ export function RevealScreen() {
       <AnimatePresence>
         {showStamp && isAllCorrect !== null && (
           <motion.div
+            key="stamp-overlay"
             className="fixed inset-0 z-[100] flex flex-col items-center justify-center p-4 bg-white/40 dark:bg-black/40 backdrop-blur-md"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -183,10 +184,10 @@ export function RevealScreen() {
           >
             <motion.div
               className={`relative z-10 flex items-center justify-center px-10 py-4 md:px-16 md:py-6 border-[8px] md:border-[12px] border-double rounded-[2rem] 
-                ${isAllCorrect ? 'border-[#2ED573] text-[#2ED573] bg-[#2ED573]/20' : 'border-[#FF4757] text-[#FF4757] bg-[#FF4757]/20'}
+                ${isAllCorrect ? 'border-green text-green' : 'border-red text-red'} bg-white/60
               `}
               style={{
-                boxShadow: isAllCorrect ? '0 0 60px rgba(46, 213, 115, 0.5), inset 0 0 40px rgba(46, 213, 115, 0.4)' : '0 0 60px rgba(255, 71, 87, 0.5), inset 0 0 40px rgba(255, 71, 87, 0.4)',
+                boxShadow: isAllCorrect ? '0 0 60px rgba(46, 213, 115, 0.4), inset 0 0 40px rgba(46, 213, 115, 0.3)' : '0 0 60px rgba(255, 71, 87, 0.4), inset 0 0 40px rgba(255, 71, 87, 0.3)',
                 transformOrigin: 'center'
               }}
               initial={{ scale: 4, opacity: 0, rotate: 20 }}
