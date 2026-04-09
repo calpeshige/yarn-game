@@ -10,30 +10,30 @@
   margin-bottom: var(--space-lg);
 }
 
-.playerGrid {
+.playerList {
   width: 100%;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: var(--space-md);
-  flex: 1;
-  align-content: center;
-}
-
-.playerTile {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  gap: var(--space-sm);
+  flex: 1;
   justify-content: center;
-  padding: var(--space-xl) var(--space-md);
+}
+
+.playerRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-md) var(--space-lg);
   background: var(--color-bg-card);
-  border-radius: var(--radius-xl);
+  border-radius: var(--radius-lg);
   box-shadow: var(--shadow-md);
   border: 2px solid rgba(0, 0, 0, 0.04);
   -webkit-tap-highlight-color: transparent;
   cursor: pointer;
   color: var(--color-text);
-  min-height: 130px;
-  perspective: 800px;
+  width: 100%;
+  text-align: left;
+  perspective: 600px;
   transition: border-color var(--transition-fast);
 }
 
@@ -42,37 +42,43 @@
   border-color: transparent;
 }
 
-.hiddenContent,
-.revealedContent {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: var(--space-sm);
-}
-
-.hiddenIcon {
-  font-size: var(--font-size-3xl);
+.rank {
+  font-size: var(--font-size-lg);
   font-weight: 900;
+  min-width: 28px;
   color: var(--color-text-muted);
 }
 
-.hiddenName {
-  font-size: var(--font-size-md);
+.revealed .rank {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.playerName {
+  flex: 1;
+  font-size: var(--font-size-lg);
   font-weight: 700;
   color: var(--color-text);
 }
 
-.revealedNumber {
-  font-size: var(--font-size-3xl);
-  font-weight: 900;
+.playerNameRevealed {
   color: white;
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
-.revealedName {
-  font-size: var(--font-size-sm);
-  font-weight: 600;
-  color: rgba(255, 255, 255, 0.85);
+.playerNumber {
+  font-size: var(--font-size-2xl);
+  font-weight: 900;
+  color: white;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  min-width: 48px;
+  text-align: right;
+}
+
+.playerHidden {
+  font-size: var(--font-size-2xl);
+  font-weight: 900;
+  color: var(--color-text-muted);
+  min-width: 48px;
+  text-align: right;
 }
 
 .bottomActions {
@@ -97,68 +103,4 @@
 
 .revealAllBtn:active {
   background: rgba(255, 71, 87, 0.08);
-}
-
-/* Red Thread Results */
-.pairResults {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-md);
-  flex: 1;
-  justify-content: center;
-}
-
-.pairCard {
-  padding: var(--space-lg);
-  background: var(--color-bg-card);
-  border-radius: var(--radius-xl);
-  border: 2px solid rgba(0, 0, 0, 0.04);
-  box-shadow: var(--shadow-md);
-  transition: all var(--transition-normal);
-}
-
-.pairSuccess {
-  border-color: var(--color-green);
-  background: linear-gradient(135deg, #F0FFF4, #E6FFED);
-  box-shadow: var(--shadow-glow-green);
-}
-
-.pairFail {
-  border-color: var(--color-red);
-  background: linear-gradient(135deg, #FFF5F5, #FFE8E8);
-  box-shadow: var(--shadow-glow-red);
-}
-
-.pairNames {
-  font-weight: 800;
-  font-size: var(--font-size-lg);
-  text-align: center;
-  margin-bottom: var(--space-sm);
-  color: var(--color-text);
-}
-
-.pairDetail {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.pairCalc {
-  font-size: var(--font-size-md);
-  font-weight: 700;
-  color: var(--color-text-secondary);
-}
-
-.pairLabel {
-  font-weight: 900;
-  font-size: var(--font-size-md);
-}
-
-.successLabel {
-  color: var(--color-green);
-}
-
-.failLabel {
-  color: var(--color-red);
 }

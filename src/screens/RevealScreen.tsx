@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useGameStore } from '../stores/gameStore';
@@ -24,6 +24,11 @@ export function RevealScreen() {
   const navigate = useNavigate();
   const t = useT();
   const [revealedIds, setRevealedIds] = useState<Set<string>>(new Set());
+
+  const sortedPlayers = useMemo(
+    () => [...players].sort((a, b) => b.cards[0] - a.cards[0]),
+    [players],
+  );
 
   const handleToggle = (playerId: string) => {
     setRevealedIds((prev) => {
@@ -69,51 +74,52 @@ export function RevealScreen() {
         {t('reveal.instruction')}
       </motion.p>
 
-      <div className={styles.playerGrid}>
-        {players.map((p, i) => {
+      <div className={styles.playerList}>
+        {sortedPlayers.map((p, i) => {
           const isRevealed = revealedIds.has(p.id);
           const color = TILE_COLORS[i % TILE_COLORS.length];
           return (
             <motion.button
               key={p.id}
-              className={`${styles.playerTile} ${isRevealed ? styles.revealed : ''}`}
+              className={`${styles.playerRow} ${isRevealed ? styles.revealed : ''}`}
               style={isRevealed ? {
                 background: color.bg,
-                boxShadow: `0 8px 30px ${color.glow}`,
+                boxShadow: `0 4px 20px ${color.glow}`,
                 borderColor: 'transparent',
               } : {}}
               onClick={() => handleToggle(p.id)}
-              initial={{ opacity: 0, y: 30, scale: 0.8 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              transition={{ delay: 0.2 + i * 0.1, type: 'spring', stiffness: 200 }}
-              whileTap={{ scale: 0.9 }}
-              layout
+              initial={{ opacity: 0, x: -30 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.15 + i * 0.08, type: 'spring', stiffness: 200 }}
+              whileTap={{ scale: 0.97 }}
             >
+              <span className={styles.rank}>{i + 1}</span>
+              <span className={`${styles.playerName} ${isRevealed ? styles.playerNameRevealed : ''}`}>
+                {p.name}
+              </span>
               <AnimatePresence mode="wait">
                 {isRevealed ? (
-                  <motion.div
-                    key="revealed"
-                    className={styles.revealedContent}
-                    initial={{ rotateY: 90, opacity: 0 }}
-                    animate={{ rotateY: 0, opacity: 1 }}
-                    exit={{ rotateY: -90, opacity: 0 }}
-                    transition={{ duration: 0.4, type: 'spring' }}
+                  <motion.span
+                    key="num"
+                    className={styles.playerNumber}
+                    initial={{ rotateX: 90, opacity: 0 }}
+                    animate={{ rotateX: 0, opacity: 1 }}
+                    exit={{ rotateX: -90, opacity: 0 }}
+                    transition={{ duration: 0.3, type: 'spring' }}
                   >
-                    <span className={styles.revealedNumber}>{p.cards[0]}</span>
-                    <span className={styles.revealedName}>{p.name}</span>
-                  </motion.div>
+                    {p.cards[0]}
+                  </motion.span>
                 ) : (
-                  <motion.div
+                  <motion.span
                     key="hidden"
-                    className={styles.hiddenContent}
-                    initial={{ rotateY: -90, opacity: 0 }}
-                    animate={{ rotateY: 0, opacity: 1 }}
-                    exit={{ rotateY: 90, opacity: 0 }}
-                    transition={{ duration: 0.3 }}
+                    className={styles.playerHidden}
+                    initial={{ rotateX: -90, opacity: 0 }}
+                    animate={{ rotateX: 0, opacity: 1 }}
+                    exit={{ rotateX: 90, opacity: 0 }}
+                    transition={{ duration: 0.2 }}
                   >
-                    <span className={styles.hiddenIcon}>?</span>
-                    <span className={styles.hiddenName}>{p.name}</span>
-                  </motion.div>
+                    ?
+                  </motion.span>
                 )}
               </AnimatePresence>
             </motion.button>
