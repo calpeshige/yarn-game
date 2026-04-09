@@ -175,13 +175,25 @@ export function RevealScreen() {
       <AnimatePresence>
         {isAllCorrect !== null && (
           <motion.div
-            className={`w-full py-4 rounded-2xl text-center font-black text-xl tracking-wide shadow-lg mt-4 ${isAllCorrect ? 'bg-gradient-to-r from-green to-teal text-white' : 'bg-gradient-to-r from-red to-orange text-white'}`}
-            initial={{ opacity: 0, scale: 0.8, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.8 }}
-            transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+            className="fixed inset-0 z-[100] flex items-center justify-center pointer-events-none"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
           >
-            {isAllCorrect ? t('reveal.success') : t('reveal.fail')}
+            <motion.div
+              className="absolute inset-0 bg-black/40 pointer-events-none"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.3 }}
+            />
+            <motion.p
+              className={`relative text-5xl font-black tracking-widest drop-shadow-[0_4px_20px_rgba(0,0,0,0.3)] ${isAllCorrect ? 'text-green' : 'text-red'}`}
+              initial={{ scale: 0, rotate: -10 }}
+              animate={{ scale: 1, rotate: 0 }}
+              transition={{ delay: 0.2, type: 'spring', stiffness: 200, damping: 12 }}
+            >
+              {isAllCorrect ? t('reveal.success') : t('reveal.fail')}
+            </motion.p>
           </motion.div>
         )}
       </AnimatePresence>
