@@ -173,35 +173,62 @@ export function RevealScreen() {
       </Reorder.Group>
 
       <AnimatePresence>
-        {isAllCorrect !== null && (
+        {showStamp && isAllCorrect !== null && (
           <motion.div
-            className="fixed inset-0 z-[100] flex items-center justify-center pointer-events-none"
+            className="fixed inset-0 z-[100] flex flex-col items-center justify-center p-4 bg-white/40 dark:bg-black/40 backdrop-blur-md"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
           >
             <motion.div
-              className="absolute inset-0 bg-white/20 backdrop-blur-sm shadow-[inset_0_0_100px_rgba(0,0,0,0.1)]"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.5 }}
-            />
-            <motion.div
-              className={`relative z-10 flex items-center justify-center px-10 py-4 md:px-16 md:py-6 border-[8px] md:border-[12px] border-double rounded-[2rem] ${isAllCorrect ? 'border-green text-green' : 'border-red text-red'} bg-white/10`}
+              className={`relative z-10 flex items-center justify-center px-10 py-4 md:px-16 md:py-6 border-[8px] md:border-[12px] border-double rounded-[2rem] 
+                ${isAllCorrect ? 'border-[#2ED573] text-[#2ED573] bg-[#2ED573]/20' : 'border-[#FF4757] text-[#FF4757] bg-[#FF4757]/20'}
+              `}
               style={{
-                boxShadow: isAllCorrect ? '0 0 50px rgba(46, 213, 115, 0.4), inset 0 0 30px rgba(46, 213, 115, 0.4)' : '0 0 50px rgba(255, 71, 87, 0.4), inset 0 0 30px rgba(255, 71, 87, 0.4)',
+                boxShadow: isAllCorrect ? '0 0 60px rgba(46, 213, 115, 0.5), inset 0 0 40px rgba(46, 213, 115, 0.4)' : '0 0 60px rgba(255, 71, 87, 0.5), inset 0 0 40px rgba(255, 71, 87, 0.4)',
                 transformOrigin: 'center'
               }}
               initial={{ scale: 4, opacity: 0, rotate: 20 }}
-              animate={{ scale: 1, opacity: 0.85, rotate: -10 }}
+              animate={{ scale: 1, opacity: 1, rotate: -10 }}
               exit={{ opacity: 0, scale: 0.8 }}
               transition={{ delay: 0.2, type: 'spring', stiffness: 350, damping: 12, mass: 1 }}
             >
               <h2 
                 className="text-6xl md:text-8xl font-black tracking-widest uppercase font-display"
                 style={{ 
-                  textShadow: isAllCorrect ? '0 4px 30px rgba(46, 213, 115, 0.8)' : '0 4px 30px rgba(255, 71, 87, 0.8)'
+                  textShadow: isAllCorrect ? '0 6px 30px rgba(46, 213, 115, 0.9)' : '0 6px 30px rgba(255, 71, 87, 0.9)'
                 }}
               >
                 {isAllCorrect ? t('reveal.success') : t('reveal.fail')}
               </h2>
+            </motion.div>
+
+            {/* スタンプ後に下から遅れて表示されるボタン群 */}
+            <motion.div
+              className="mt-16 w-full max-w-[320px] flex flex-col gap-4 z-20"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 1.2, duration: 0.5, type: 'spring' }}
+            >
+              <Button variant="secondary" size="lg" onClick={() => setShowStamp(false)} className="w-full py-4 !bg-white/80 hover:!bg-white">
+                点数を確認する
+              </Button>
+              {mode === 'insider' ? (
+                <Button variant="primary" size="lg" onClick={handleToVote} className="w-full py-4 shadow-lg shadow-blue/30">
+                  {t('reveal.toVote')}
+                </Button>
+              ) : (
+                <Button variant="primary" size="lg" onClick={handlePlayAgain} className="w-full py-4 shadow-lg shadow-blue/30">
+                  {t('reveal.playAgain')}
+                </Button>
+              )}
+              <motion.button
+                className="text-sm font-bold text-text-main/80 hover:text-text-main transition-colors py-2 bg-white/50 backdrop-blur-sm rounded-full mt-2"
+                onClick={handleGoHome}
+                whileTap={{ scale: 0.95 }}
+              >
+                {t('reveal.home')}
+              </motion.button>
             </motion.div>
           </motion.div>
         )}
