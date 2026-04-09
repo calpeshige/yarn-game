@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { HashRouter, Routes, Route } from 'react-router-dom';
 import { HomeScreen } from './screens/HomeScreen';
 import { PlayerSetupScreen } from './screens/PlayerSetupScreen';
 import { ThemeSelectScreen } from './screens/ThemeSelectScreen';
@@ -13,7 +13,7 @@ export default function App() {
   return (
     <>
       <AnimatedBackground />
-      <BrowserRouter>
+      <HashRouter>
         <Routes>
           <Route path="/" element={<HomeScreen />} />
           <Route path="/players" element={<PlayerSetupScreen />} />
@@ -24,7 +24,7 @@ export default function App() {
           <Route path="/insider-vote" element={<InsiderVoteScreen />} />
           <Route path="/insider-result" element={<InsiderResultScreen />} />
         </Routes>
-      </BrowserRouter>
+      </HashRouter>
     </>
   );
 }
