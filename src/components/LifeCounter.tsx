@@ -1,4 +1,4 @@
-import styles from './LifeCounter.module.css';
+import { motion } from 'framer-motion';
 
 interface LifeCounterProps {
   lives: number;
@@ -7,14 +7,18 @@ interface LifeCounterProps {
 
 export function LifeCounter({ lives, maxLives = 3 }: LifeCounterProps) {
   return (
-    <div className={styles.container}>
+    <div className="flex items-center gap-2 bg-white/40 backdrop-blur-sm px-4 py-2 rounded-full border border-white/40 shadow-sm">
       {Array.from({ length: maxLives }, (_, i) => (
-        <span
+        <motion.span
           key={i}
-          className={`${styles.heart} ${i < lives ? styles.active : styles.lost}`}
+          className="text-xl"
+          initial={{ scale: 0.8, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ type: "spring", delay: i * 0.1 }}
+          style={{ opacity: i < lives ? 1 : 0.4, filter: i < lives ? 'none' : 'grayscale(100%)' }}
         >
-          {i < lives ? '\u2764\uFE0F' : '\u{1F5A4}'}
-        </span>
+          {i < lives ? '❤️' : '🖤'}
+        </motion.span>
       ))}
     </div>
   );

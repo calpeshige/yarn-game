@@ -1,0 +1,68 @@
+@import "tailwindcss";
+
+@theme {
+  --color-red: #FF4757;
+  --color-red-light: #FF6B7A;
+  --color-red-glow: rgba(255, 71, 87, 0.25);
+  --color-blue: #3742FA;
+  --color-blue-light: #5F6CFF;
+  --color-blue-glow: rgba(55, 66, 250, 0.2);
+  --color-green: #2ED573;
+  --color-green-light: #7BED9F;
+  --color-green-glow: rgba(46, 213, 115, 0.2);
+  --color-yellow: #FFC312;
+  --color-yellow-light: #FFE066;
+  --color-yellow-glow: rgba(255, 195, 18, 0.2);
+  --color-purple: #A55EEA;
+  --color-purple-light: #D980FA;
+  --color-orange: #FF6B3A;
+  --color-pink: #FF6B9D;
+  --color-cyan: #18DCFF;
+
+  --color-bg-base: #F0F4FF;
+  --color-bg-warm: #FFF7F0;
+  --color-bg-card: #FFFFFF;
+  --color-bg-card-hover: #F8FAFF;
+  --color-bg-surface: #E8EEFF;
+  --color-bg-overlay: rgba(0, 0, 0, 0.5);
+
+  --color-text-main: #1A1A3E;
+  --color-text-secondary: #5A5E8A;
+  --color-text-muted: #9CA0C0;
+
+  --font-sans: 'Inter', 'Noto Sans JP', sans-serif;
+  --font-display: 'Inter', 'Noto Sans JP', sans-serif;
+}
+
+@layer base {
+  body {
+    @apply bg-bg-base text-text-main antialiased;
+    min-height: 100dvh;
+    overflow-x: hidden;
+  }
+
+  #root {
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    /* 背景はAnimatedBackgroundコンポーネントで描画する */
+  }
+
+  /* Utility container for screens */
+  .screen-container {
+    @apply flex flex-col items-center flex-1 w-full max-w-[480px] mx-auto px-4 pt-6 pb-[max(1.5rem,env(safe-area-inset-bottom))] z-10 relative;
+  }
+
+  /* 3D Utilities */
+  .perspective-1000 {
+    perspective: 1000px;
+  }
+  .preserve-3d {
+    transform-style: preserve-3d;
+  }
+  .backface-hidden {
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+  }
+}

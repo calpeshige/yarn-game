@@ -7,20 +7,24 @@ import { DiscussionScreen } from './screens/DiscussionScreen';
 import { RevealScreen } from './screens/RevealScreen';
 import { InsiderVoteScreen } from './screens/InsiderVoteScreen';
 import { InsiderResultScreen } from './screens/InsiderResultScreen';
+import { AnimatedBackground } from './components/AnimatedBackground';
 
 export default function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<HomeScreen />} />
-        <Route path="/players" element={<PlayerSetupScreen />} />
-        <Route path="/theme" element={<ThemeSelectScreen />} />
-        <Route path="/peek" element={<CardPeekScreen />} />
-        <Route path="/discussion" element={<DiscussionScreen />} />
-        <Route path="/reveal" element={<RevealScreen />} />
-        <Route path="/insider-vote" element={<InsiderVoteScreen />} />
-        <Route path="/insider-result" element={<InsiderResultScreen />} />
-      </Routes>
-    </BrowserRouter>
+    <>
+      <AnimatedBackground />
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<HomeScreen />} />
+          <Route path="/players" element={<PlayerSetupScreen />} />
+          <Route path="/theme" element={<ThemeSelectScreen />} />
+          <Route path="/peek" element={<CardPeekScreen />} />
+          <Route path="/discussion" element={<DiscussionScreen />} />
+          <Route path="/reveal" element={<RevealScreen />} />
+          <Route path="/insider-vote" element={<InsiderVoteScreen />} />
+          <Route path="/insider-result" element={<InsiderResultScreen />} />
+        </Routes>
+      </BrowserRouter>
+    </>
   );
 }

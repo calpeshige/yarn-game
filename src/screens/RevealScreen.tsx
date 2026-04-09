@@ -5,19 +5,18 @@ import { useGameStore } from '../stores/gameStore';
 import { useT } from '../i18n';
 import { Button } from '../components/Button';
 import type { Player } from '../types/game';
-import styles from './RevealScreen.module.css';
 
 const TILE_COLORS = [
-  { bg: 'linear-gradient(135deg, #FF4757, #FF6B7A)', glow: 'rgba(255, 71, 87, 0.3)' },
-  { bg: 'linear-gradient(135deg, #3742FA, #5F6CFF)', glow: 'rgba(55, 66, 250, 0.3)' },
-  { bg: 'linear-gradient(135deg, #2ED573, #7BED9F)', glow: 'rgba(46, 213, 115, 0.3)' },
-  { bg: 'linear-gradient(135deg, #FFC312, #FFE066)', glow: 'rgba(255, 195, 18, 0.3)' },
-  { bg: 'linear-gradient(135deg, #A55EEA, #D980FA)', glow: 'rgba(165, 94, 234, 0.3)' },
-  { bg: 'linear-gradient(135deg, #FF6B3A, #FF9F43)', glow: 'rgba(255, 107, 58, 0.3)' },
-  { bg: 'linear-gradient(135deg, #FF6B9D, #FFB8D0)', glow: 'rgba(255, 107, 157, 0.3)' },
-  { bg: 'linear-gradient(135deg, #18DCFF, #7EFFF5)', glow: 'rgba(24, 220, 255, 0.3)' },
-  { bg: 'linear-gradient(135deg, #FFC312, #FF6B3A)', glow: 'rgba(255, 195, 18, 0.3)' },
-  { bg: 'linear-gradient(135deg, #A55EEA, #3742FA)', glow: 'rgba(165, 94, 234, 0.3)' },
+  { bg: 'linear-gradient(135deg, #FF4757, #FF6B7A)', glow: 'rgba(255, 71, 87, 0.4)' },
+  { bg: 'linear-gradient(135deg, #3742FA, #5F6CFF)', glow: 'rgba(55, 66, 250, 0.4)' },
+  { bg: 'linear-gradient(135deg, #2ED573, #7BED9F)', glow: 'rgba(46, 213, 115, 0.4)' },
+  { bg: 'linear-gradient(135deg, #FFC312, #FFE066)', glow: 'rgba(255, 195, 18, 0.4)' },
+  { bg: 'linear-gradient(135deg, #A55EEA, #D980FA)', glow: 'rgba(165, 94, 234, 0.4)' },
+  { bg: 'linear-gradient(135deg, #FF6B3A, #FF9F43)', glow: 'rgba(255, 107, 58, 0.4)' },
+  { bg: 'linear-gradient(135deg, #FF6B9D, #FFB8D0)', glow: 'rgba(255, 107, 157, 0.4)' },
+  { bg: 'linear-gradient(135deg, #18DCFF, #7EFFF5)', glow: 'rgba(24, 220, 255, 0.4)' },
+  { bg: 'linear-gradient(135deg, #FFC312, #FF6B3A)', glow: 'rgba(255, 195, 18, 0.4)' },
+  { bg: 'linear-gradient(135deg, #A55EEA, #3742FA)', glow: 'rgba(165, 94, 234, 0.4)' },
 ];
 
 export function RevealScreen() {
@@ -58,9 +57,9 @@ export function RevealScreen() {
   const allRevealed = revealedIds.size === players.length;
 
   return (
-    <div className="screen">
+    <div className="screen-container pt-6 pb-8 justify-start h-full">
       <motion.h2
-        className={styles.heading}
+        className="text-3xl font-black text-text-main text-center mb-2 tracking-wide"
         initial={{ y: -20, opacity: 0, scale: 0.8 }}
         animate={{ y: 0, opacity: 1, scale: 1 }}
         transition={{ type: 'spring', stiffness: 200 }}
@@ -68,7 +67,7 @@ export function RevealScreen() {
         {t('reveal.title')}
       </motion.h2>
       <motion.p
-        className={styles.subHeading}
+        className="text-sm font-bold text-text-secondary text-center mb-6 opacity-90"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.3 }}
@@ -80,7 +79,7 @@ export function RevealScreen() {
         axis="y"
         values={orderedPlayers}
         onReorder={setOrderedPlayers}
-        className={styles.playerList}
+        className="w-full flex-1 flex flex-col gap-3 py-2 -mx-2 px-2 overflow-y-auto overflow-x-hidden custom-scrollbar"
       >
         {orderedPlayers.map((p, i) => {
           const isRevealed = revealedIds.has(p.id);
@@ -89,19 +88,19 @@ export function RevealScreen() {
             <Reorder.Item
               key={p.id}
               value={p}
-              className={`${styles.playerRow} ${isRevealed ? styles.revealed : ''}`}
+              className={`flex items-center gap-3 p-3.5 bg-white/70 backdrop-blur-xl rounded-2xl relative transition-all ${isRevealed ? 'text-white' : 'text-text-main border border-white/60 shadow-sm'}`}
               style={isRevealed ? {
                 background: color.bg,
-                boxShadow: `0 4px 20px ${color.glow}`,
-                borderColor: 'transparent',
+                boxShadow: `0 8px 25px ${color.glow}`,
+                border: '1px solid rgba(255,255,255,0.2)',
               } : {}}
               initial={{ opacity: 0, x: -30 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.15 + i * 0.08, type: 'spring', stiffness: 200 }}
-              whileDrag={{ scale: 1.03, boxShadow: '0 8px 30px rgba(0,0,0,0.15)' }}
+              whileDrag={{ scale: 1.05, boxShadow: '0 15px 40px rgba(0,0,0,0.2)', zIndex: 50 }}
             >
-              <span className={styles.dragHandle}>
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+              <span className={`flex items-center justify-center w-8 h-8 cursor-grab active:cursor-grabbing ${isRevealed ? 'text-white/60' : 'text-text-muted/50'}`}>
+                <svg width="18" height="18" viewBox="0 0 16 16" fill="currentColor">
                   <circle cx="5" cy="3" r="1.5" />
                   <circle cx="11" cy="3" r="1.5" />
                   <circle cx="5" cy="8" r="1.5" />
@@ -110,22 +109,22 @@ export function RevealScreen() {
                   <circle cx="11" cy="13" r="1.5" />
                 </svg>
               </span>
-              <span className={styles.rank}>{i + 1}</span>
+              <span className={`font-black text-xl w-6 text-center font-display ${isRevealed ? 'text-white/80' : 'text-text-muted/40'}`}>{i + 1}</span>
               <button
-                className={styles.tapArea}
+                className="flex-1 flex justify-between items-center text-left"
                 onClick={() => handleToggle(p.id)}
               >
-                <span className={`${styles.playerName} ${isRevealed ? styles.playerNameRevealed : ''}`}>
+                <span className={`font-bold text-lg truncate pr-2 ${isRevealed ? 'text-white' : 'text-text-main'}`}>
                   {p.name}
                 </span>
                 <AnimatePresence mode="wait">
                   {isRevealed ? (
                     <motion.span
                       key="num"
-                      className={styles.playerNumber}
-                      initial={{ rotateX: 90, opacity: 0 }}
-                      animate={{ rotateX: 0, opacity: 1 }}
-                      exit={{ rotateX: -90, opacity: 0 }}
+                      className="font-black text-3xl font-display text-white drop-shadow-md"
+                      initial={{ scale: 0.5, rotateX: 90, opacity: 0 }}
+                      animate={{ scale: 1, rotateX: 0, opacity: 1 }}
+                      exit={{ scale: 0.5, rotateX: -90, opacity: 0 }}
                       transition={{ duration: 0.3, type: 'spring' }}
                     >
                       {p.cards[0]}
@@ -133,10 +132,10 @@ export function RevealScreen() {
                   ) : (
                     <motion.span
                       key="hidden"
-                      className={styles.playerHidden}
-                      initial={{ rotateX: -90, opacity: 0 }}
-                      animate={{ rotateX: 0, opacity: 1 }}
-                      exit={{ rotateX: 90, opacity: 0 }}
+                      className="w-10 h-10 bg-black/5 rounded-full flex items-center justify-center font-black text-text-muted/60 text-lg"
+                      initial={{ scale: 0.5, rotateX: -90, opacity: 0 }}
+                      animate={{ scale: 1, rotateX: 0, opacity: 1 }}
+                      exit={{ scale: 0.5, rotateX: 90, opacity: 0 }}
                       transition={{ duration: 0.2 }}
                     >
                       ?
@@ -150,14 +149,14 @@ export function RevealScreen() {
       </Reorder.Group>
 
       <motion.div
-        className={styles.bottomActions}
+        className="w-full flex flex-col gap-3 mt-auto pt-6"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.6 }}
       >
         {!allRevealed && (
           <motion.button
-            className={styles.revealAllBtn}
+            className="text-sm font-bold text-text-secondary hover:text-blue transition-colors py-2 bg-white/40 hover:bg-white/60 backdrop-blur-sm rounded-full w-40 mx-auto"
             onClick={handleRevealAll}
             whileTap={{ scale: 0.95 }}
           >
@@ -165,16 +164,16 @@ export function RevealScreen() {
           </motion.button>
         )}
         {mode === 'insider' ? (
-          <Button variant="primary" size="lg" onClick={handleToVote}>
+          <Button variant="primary" size="lg" onClick={handleToVote} className="py-4">
             {t('reveal.toVote')}
           </Button>
         ) : (
-          <Button variant="primary" size="lg" onClick={handlePlayAgain}>
+          <Button variant="primary" size="lg" onClick={handlePlayAgain} className="py-4">
             {t('reveal.playAgain')}
           </Button>
         )}
         <motion.button
-          className={styles.revealAllBtn}
+          className="text-sm font-bold text-text-muted hover:text-text-main transition-colors py-2"
           onClick={handleGoHome}
           whileTap={{ scale: 0.95 }}
         >

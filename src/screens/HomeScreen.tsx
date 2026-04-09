@@ -5,7 +5,6 @@ import { useGameStore } from '../stores/gameStore';
 import { useLangStore, useT } from '../i18n';
 import { Button } from '../components/Button';
 import type { Theme } from '../types/game';
-import styles from './HomeScreen.module.css';
 
 function loadUserThemes(): Theme[] {
   try {
@@ -61,39 +60,39 @@ export function HomeScreen() {
   };
 
   return (
-    <div className="screen">
+    <div className="screen-container justify-center pb-10">
       <motion.div
-        className={styles.titleArea}
+        className="flex flex-col items-center justify-center pt-8 pb-10 w-full"
         initial={{ opacity: 0, y: -30 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, ease: 'easeOut' }}
+        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
       >
-        <motion.span
-          className={styles.logoIcon}
-          animate={{ rotate: [0, 10, -10, 0] }}
-          transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }}
+        <motion.div
+          className="text-7xl mb-6 filter drop-shadow-md"
+          animate={{ rotate: [0, 15, -10, 0] }}
+          transition={{ duration: 2.5, repeat: Infinity, repeatDelay: 4 }}
         >
           🧶
-        </motion.span>
-        <h1 className={styles.title}>YARN</h1>
-        <p className={styles.subtitle}>{t('home.subtitle')}</p>
+        </motion.div>
+        <h1 className="text-6xl font-black text-transparent bg-clip-text bg-gradient-to-br from-red to-orange mb-3 tracking-wider font-display">YARN</h1>
+        <p className="text-text-secondary text-sm font-medium tracking-wide">{t('home.subtitle')}</p>
       </motion.div>
 
       {/* 言語切替 */}
       <motion.div
-        className={styles.langSwitch}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.2 }}
+        className="flex items-center justify-center p-1.5 bg-white/50 backdrop-blur-md rounded-full mb-12 shadow-sm border border-white/60"
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ delay: 0.2, type: 'spring' }}
       >
         <button
-          className={`${styles.langBtn} ${lang === 'ja' ? styles.langActive : ''}`}
+          className={`px-6 py-2.5 rounded-full text-sm font-bold transition-all ${lang === 'ja' ? 'bg-white shadow-[0_2px_10px_rgba(0,0,0,0.05)] text-blue' : 'text-text-muted hover:text-text-secondary'}`}
           onClick={() => setLang('ja')}
         >
           日本語
         </button>
         <button
-          className={`${styles.langBtn} ${lang === 'en' ? styles.langActive : ''}`}
+          className={`px-6 py-2.5 rounded-full text-sm font-bold transition-all ${lang === 'en' ? 'bg-white shadow-[0_2px_10px_rgba(0,0,0,0.05)] text-blue' : 'text-text-muted hover:text-text-secondary'}`}
           onClick={() => setLang('en')}
         >
           English
@@ -101,17 +100,17 @@ export function HomeScreen() {
       </motion.div>
 
       <motion.div
-        className={styles.startArea}
-        initial={{ opacity: 0, y: 20 }}
+        className="w-full flex flex-col items-center gap-4 mt-auto mb-4"
+        initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.3, type: 'spring' }}
+        transition={{ delay: 0.3, type: 'spring', stiffness: 200, damping: 20 }}
       >
         <Button variant="primary" size="lg" onClick={handleStart}>
           {t('home.start')}
         </Button>
 
         <motion.button
-          className={styles.themeToggle}
+          className="text-text-secondary text-sm font-medium mt-4 hover:text-blue transition-colors px-4 py-2"
           onClick={() => setShowThemeManager(!showThemeManager)}
           whileTap={{ scale: 0.95 }}
         >
@@ -122,62 +121,65 @@ export function HomeScreen() {
       <AnimatePresence>
         {showThemeManager && (
           <motion.div
-            className={styles.themeManager}
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.3 }}
+            className="w-full bg-white/70 backdrop-blur-xl rounded-3xl p-6 shadow-[0_8px_30px_rgba(0,0,0,0.08)] border border-white/60 overflow-hidden"
+            initial={{ opacity: 0, height: 0, marginTop: 0 }}
+            animate={{ opacity: 1, height: 'auto', marginTop: 16 }}
+            exit={{ opacity: 0, height: 0, marginTop: 0 }}
+            transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
           >
-            <h3 className={styles.tmTitle}>{t('home.themes.title')}</h3>
+            <h3 className="font-bold text-lg mb-5 text-center text-text-main">{t('home.themes.title')}</h3>
 
-            <div className={styles.tmForm}>
+            <div className="flex flex-col gap-3 mb-6">
               <input
-                className={styles.tmInput}
+                className="w-full bg-white/80 border border-white/80 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue/30 transition-all shadow-inner"
                 placeholder={t('home.themes.name')}
                 value={customName}
                 onChange={(e) => setCustomName(e.target.value)}
               />
-              <div className={styles.tmRow}>
+              <div className="flex gap-3">
                 <input
-                  className={styles.tmInput}
+                  className="w-full bg-white/80 border border-white/80 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue/30 transition-all shadow-inner"
                   placeholder={t('home.themes.low')}
                   value={customLow}
                   onChange={(e) => setCustomLow(e.target.value)}
                 />
                 <input
-                  className={styles.tmInput}
+                  className="w-full bg-white/80 border border-white/80 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue/30 transition-all shadow-inner"
                   placeholder={t('home.themes.high')}
                   value={customHigh}
                   onChange={(e) => setCustomHigh(e.target.value)}
                 />
               </div>
-              <Button
-                variant="secondary"
-                size="sm"
-                onClick={handleAddTheme}
-                disabled={!customName.trim()}
-              >
-                {t('home.themes.add')}
-              </Button>
+              <div className="mt-2 text-center">
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  onClick={handleAddTheme}
+                  disabled={!customName.trim()}
+                  className="mx-auto"
+                >
+                  {t('home.themes.add')}
+                </Button>
+              </div>
             </div>
 
             {userThemes.length > 0 ? (
-              <div className={styles.tmList}>
+              <div className="flex flex-col gap-2 max-h-[200px] overflow-y-auto pr-1">
                 {userThemes.map((th) => (
                   <motion.div
                     key={th.id}
-                    className={styles.tmItem}
+                    className="flex items-center justify-between bg-white/60 p-3.5 rounded-xl border border-white/60 shadow-sm"
                     layout
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: 20 }}
+                    initial={{ opacity: 0, x: -20, scale: 0.95 }}
+                    animate={{ opacity: 1, x: 0, scale: 1 }}
+                    exit={{ opacity: 0, x: 20, scale: 0.95 }}
                   >
-                    <div className={styles.tmItemInfo}>
-                      <span className={styles.tmItemName}>{th.name}</span>
-                      <span className={styles.tmItemScale}>{th.low} ↔ {th.high}</span>
+                    <div className="flex flex-col">
+                      <span className="font-bold text-sm text-text-main">{th.name}</span>
+                      <span className="text-[11px] text-text-muted mt-0.5">{th.low} ↔ {th.high}</span>
                     </div>
                     <motion.button
-                      className={styles.tmRemove}
+                      className="w-8 h-8 flex items-center justify-center rounded-full bg-red/10 text-red font-bold hover:bg-red hover:text-white transition-colors"
                       onClick={() => handleRemoveTheme(th.id)}
                       whileTap={{ scale: 0.8 }}
                     >
@@ -187,7 +189,7 @@ export function HomeScreen() {
                 ))}
               </div>
             ) : (
-              <p className={styles.tmEmpty}>{t('home.themes.empty')}</p>
+              <p className="text-center text-sm text-text-muted py-6">{t('home.themes.empty')}</p>
             )}
           </motion.div>
         )}

@@ -1,12 +1,12 @@
 import { useState, useCallback, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import { useGameStore } from '../stores/gameStore';
 import { useLangStore, useT } from '../i18n';
 import { themes as themesJa } from '../data/themes_ja';
 import { themesEn } from '../data/themes_en';
 import { Button } from '../components/Button';
 import type { Theme } from '../types/game';
-import styles from './ThemeSelectScreen.module.css';
 
 type SourceMode = 'all' | 'original';
 
@@ -60,60 +60,96 @@ export function ThemeSelectScreen() {
   };
 
   return (
-    <div className="screen">
-      <div className={styles.header}>
-        <h2 className={styles.heading}>{t('theme.title')}</h2>
-      </div>
+    <div className="screen-container">
+      <motion.div 
+        className="w-full text-center mb-8 pt-4"
+        initial={{ y: -20, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+      >
+        <h2 className="font-bold text-2xl text-text-main tracking-wider">{t('theme.title')}</h2>
+      </motion.div>
 
       {hasUserThemes && (
-        <div className={styles.sourceTabs}>
+        <motion.div 
+          className="flex items-center gap-2 w-full p-1.5 bg-white/50 backdrop-blur-md rounded-2xl mb-6 shadow-sm border border-white/60"
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+        >
           <button
-            className={`${styles.sourceTab} ${sourceMode === 'all' ? styles.sourceActive : ''}`}
+            className={`flex-1 py-2.5 rounded-xl text-sm font-bold transition-all text-center ${sourceMode === 'all' ? 'bg-white shadow-[0_2px_10px_rgba(0,0,0,0.05)] text-blue' : 'text-text-muted hover:text-text-secondary'}`}
             onClick={() => handleChangeSource('all')}
           >
             {t('theme.all')}
           </button>
           <button
-            className={`${styles.sourceTab} ${sourceMode === 'original' ? styles.sourceActive : ''}`}
+            className={`flex-1 py-2.5 rounded-xl text-sm font-bold transition-all text-center ${sourceMode === 'original' ? 'bg-white shadow-[0_2px_10px_rgba(0,0,0,0.05)] text-purple' : 'text-text-muted hover:text-text-secondary'}`}
             onClick={() => handleChangeSource('original')}
           >
             {t('theme.originalOnly')}
           </button>
-        </div>
+        </motion.div>
       )}
 
-      <p className={styles.instruction}>{t('theme.instruction')}</p>
+      <p className="text-sm font-bold text-text-secondary text-center mb-6 opacity-90">{t('theme.instruction')}</p>
 
-      <div className={styles.themeCards}>
-        {options.map((th, i) => (
-          <button
-            key={`slot-${i}`}
-            className={`${styles.themeCard} ${selected?.id === th.id ? styles.selected : ''}`}
-            style={{ '--card-hue': i === 0 ? '340' : '210' } as React.CSSProperties}
-            onClick={() => setSelected(th)}
-          >
-            <span className={styles.themeName}>{th.name}</span>
-            <div className={styles.scaleBar}>
-              <span className={styles.scaleLow}>1 {th.low}</span>
-              <div className={styles.scaleLine} />
-              <span className={styles.scaleHigh}>{th.high} 100</span>
-            </div>
-            {selected?.id === th.id && (
-              <div className={styles.checkBadge}>✓</div>
-            )}
-          </button>
-        ))}
+      <div className="w-full flex flex-col gap-5 flex-1 relative z-10 px-2">
+        {options.map((th, i) => {
+          const isSelected = selected?.id === th.id;
+          const hue1 = i === 0 ? '340, 80%, 65%' : '210, 80%, 60%';
+          const hue2 = i === 0 ? '5, 85%, 60%' : '190, 85%, 55%';
+          
+          return (
+            <motion.button
+              key={`slot-${i}`}
+              className={`w-full relative flex flex-col items-center justify-center p-6 rounded-3xl transition-all duration-300 text-left overflow-hidden border-2 ${isSelected ? 'border-white shadow-[0_12px_40px_rgba(0,0,0,0.15)] scale-[1.02]' : 'border-white/40 bg-white/60 backdrop-blur-xl shadow-sm hover:scale-[1.01] hover:bg-white/80'} focus:outline-none`}
+              onClick={() => setSelected(th)}
+              whileTap={{ scale: 0.97 }}
+              style={{
+                background: isSelected ? `linear-gradient(135deg, hsl(${hue1}) 0%, hsl(${hue2}) 100%)` : ''
+              }}
+            >
+              <h3 className={`font-bold text-xl mb-3 ${isSelected ? 'text-white' : 'text-text-main'}`}>{th.name}</h3>
+              
+              <div className="w-full flex items-center justify-between gap-3 text-xs font-bold mt-2">
+                <span className={`${isSelected ? 'text-white/90' : 'text-blue text-opacity-80'} whitespace-nowrap`}>1 {th.low}</span>
+                <div className={`flex-1 h-1 rounded-full ${isSelected ? 'bg-white/40' : 'bg-gradient-to-r from-blue/20 via-pink/20 to-red/20'}`} />
+                <span className={`${isSelected ? 'text-white/90' : 'text-red text-opacity-80'} whitespace-nowrap`}>{th.high} 100</span>
+              </div>
+              
+              {isSelected && (
+                <motion.div 
+                  className="absolute top-4 right-4 w-7 h-7 bg-white rounded-full flex items-center justify-center text-red font-bold shadow-md"
+                  initial={{ scale: 0, rotate: -45 }}
+                  animate={{ scale: 1, rotate: 0 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 15 }}
+                >
+                  ✓
+                </motion.div>
+              )}
+            </motion.button>
+          );
+        })}
       </div>
 
-      <button className={styles.shuffleBtn} onClick={handleShuffle}>
+      <motion.button 
+        className="mt-6 mb-2 py-3 px-8 text-sm font-bold text-text-secondary hover:text-blue bg-white/40 hover:bg-white/70 backdrop-blur-sm rounded-full transition-all border border-white/40 shadow-sm"
+        onClick={handleShuffle}
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+      >
         {t('theme.shuffle')}
-      </button>
+      </motion.button>
 
-      <div className={styles.actions}>
-        <Button variant="primary" size="lg" disabled={!selected} onClick={handleStart}>
+      <motion.div 
+        className="w-full mt-auto mb-8 pt-4 relative z-20"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.3 }}
+      >
+        <Button variant="primary" size="lg" disabled={!selected} onClick={handleStart} className="w-full py-4 text-lg">
           {t('theme.start')}
         </Button>
-      </div>
+      </motion.div>
     </div>
   );
 }
