@@ -10,9 +10,11 @@ interface GameActions {
   startGame: () => void;
   markCardViewed: (playerId: string) => void;
   advancePeekPlayer: () => void;
+  previousPeekPlayer: () => void;
   setPhase: (phase: GamePhase) => void;
   castVote: (targetId: string) => void;
   advanceVoter: () => void;
+  previousVoter: () => void;
   resetVotes: () => void;
   playAgain: () => void;
   goHome: () => void;
@@ -109,6 +111,13 @@ export const useGameStore = create<GameStore>()(
       }
     },
 
+    previousPeekPlayer: () => {
+      const { currentPeekPlayerIndex } = get();
+      if (currentPeekPlayerIndex > 0) {
+        set({ currentPeekPlayerIndex: currentPeekPlayerIndex - 1 });
+      }
+    },
+
     setPhase: (phase) => set({ phase }),
 
     castVote: (targetId) => {
@@ -122,6 +131,19 @@ export const useGameStore = create<GameStore>()(
 
     advanceVoter: () => {
       set((state) => ({ currentVoterIndex: state.currentVoterIndex + 1 }));
+    },
+
+    previousVoter: () => {
+      set((state) => {
+        if (state.currentVoterIndex > 0) {
+          // 投票を1つ消し、インデックスを1つ戻す
+          return {
+            currentVoterIndex: state.currentVoterIndex - 1,
+            insiderVotes: state.insiderVotes.slice(0, -1),
+          };
+        }
+        return state;
+      });
     },
 
     resetVotes: () => {

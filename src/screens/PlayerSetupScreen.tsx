@@ -38,15 +38,14 @@ export function PlayerSetupScreen() {
   return (
     <div className="screen-container">
       <motion.div
-        className="w-full flex items-center justify-between mb-8 pb-4 border-b border-white/30"
+        className="w-full mb-8 pb-4 border-b border-white/30"
         initial={{ y: -20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.4 }}
       >
         <button className="text-sm text-text-muted hover:text-text-main font-bold flex items-center gap-1 transition-opacity hover:opacity-70 px-2 py-1" onClick={() => navigate('/')}>
-          <span className="text-lg leading-none">&lt;</span> {t('players.back')}
+          <span className="text-lg leading-none inline-block -mt-0.5">‹</span> {t('players.back')}
         </button>
-        <h2 className="font-bold text-xl text-text-main tracking-wide mr-2">{t('players.title')}</h2>
       </motion.div>
 
       <div className="flex items-center w-full p-1.5 bg-white/50 backdrop-blur-md rounded-2xl mb-4 border border-white/60 shadow-[0_2px_10px_rgba(0,0,0,0.03)]">

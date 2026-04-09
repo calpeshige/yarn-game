@@ -8,7 +8,7 @@ import { Button } from '../components/Button';
 
 export function CardPeekScreen() {
   const navigate = useNavigate();
-  const { players, currentPeekPlayerIndex, markCardViewed, advancePeekPlayer, mode, insiderId } =
+  const { players, currentPeekPlayerIndex, markCardViewed, advancePeekPlayer, previousPeekPlayer, mode, insiderId } =
     useGameStore();
   const t = useT();
   const [isRevealed, setIsRevealed] = useState(false);
@@ -40,6 +40,18 @@ export function CardPeekScreen() {
     }
   };
 
+  const handleBack = () => {
+    if (currentPeekPlayerIndex === 0) {
+      // 最初のプレイヤーの場合は前の画面（プレイヤー設定）に戻る
+      navigate('/players');
+    } else {
+      // 1人前のプレイヤーに戻す
+      previousPeekPlayer();
+      setShowPass(true);
+      setIsRevealed(false);
+    }
+  };
+
   const handleReady = () => {
     setShowPass(false);
     setIsRevealed(false);
@@ -51,6 +63,12 @@ export function CardPeekScreen() {
   if (showPass) {
     return (
       <div className="screen-container justify-center relative">
+        <button 
+          className="absolute top-6 left-4 z-50 text-sm text-text-muted hover:text-text-main font-bold flex items-center gap-1 transition-opacity hover:opacity-70 px-2 py-1" 
+          onClick={handleBack}
+        >
+          <span className="text-lg leading-none inline-block -mt-0.5">‹</span> {t('players.back')}
+        </button>
         <AnimatePresence mode="wait">
           <motion.div
             key={currentPlayer.id}

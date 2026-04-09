@@ -40,7 +40,7 @@ const dict = {
   'players.count': { ja: '人参加', en: ' players' },
   'players.deal': { ja: 'カードを配る', en: 'Deal Cards' },
   'players.clearAll': { ja: '全員削除', en: 'Remove All' },
-  'players.back': { ja: '‹ 戻る', en: '‹ Back' },
+  'players.back': { ja: '戻る', en: 'Back' },
 
   // Player Mode
   'players.modeStandard': { ja: '通常モード', en: 'Standard' },
@@ -77,6 +77,7 @@ const dict = {
   'discussion.hint': { ja: 'テーマに沿ってヒントで伝えよう', en: 'Give hints based on the topic' },
   'discussion.rule': { ja: '数字を直接言うのはNG！', en: 'Do NOT say the number directly!' },
   'discussion.result': { ja: '結果を見る', en: 'See Results' },
+  'discussion.reselectTheme': { ja: 'お題を決め直す', en: 'Reselect Topic' },
 
   // Reveal
   'reveal.title': { ja: '結果発表', en: 'Results' },

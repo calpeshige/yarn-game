@@ -60,7 +60,13 @@ export function ThemeSelectScreen() {
   };
 
   return (
-    <div className="screen-container">
+    <div className="screen-container relative">
+      <button 
+        className="absolute top-6 left-4 z-50 text-sm text-text-muted hover:text-text-main font-bold flex items-center gap-1 transition-opacity hover:opacity-70 px-2 py-1" 
+        onClick={() => navigate('/peek')}
+      >
+        <span className="text-lg leading-none inline-block -mt-0.5">‹</span> {t('players.back')}
+      </button>
       <motion.div 
         className="w-full text-center mb-8 pt-4"
         initial={{ y: -20, opacity: 0 }}

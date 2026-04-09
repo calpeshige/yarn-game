@@ -27,7 +27,7 @@ function PlayerReorderItem({ player, index, color, isRevealed, onToggle }: any) 
       value={player}
       dragListener={false}
       dragControls={dragControls}
-      className={`flex items-center gap-3 p-3.5 bg-white/70 backdrop-blur-xl rounded-2xl relative ${isRevealed ? 'text-white' : 'text-text-main border border-white/60 shadow-sm'}`}
+      className={`w-full flex flex-shrink-0 items-center gap-3 p-3.5 bg-white/70 backdrop-blur-xl rounded-2xl relative ${isRevealed ? 'text-white' : 'text-text-main border border-white/60 shadow-sm'}`}
       style={isRevealed ? {
         background: color.bg,
         border: '1px solid rgba(255,255,255,0.4)',
@@ -131,7 +131,13 @@ export function RevealScreen() {
   const allRevealed = revealedIds.size === players.length;
 
   return (
-    <div className="screen-container pt-6 pb-8 justify-start h-full">
+    <div className="screen-container pt-6 pb-8 justify-start h-full relative">
+      <button 
+        className="absolute top-6 left-4 z-50 text-sm text-text-muted hover:text-text-main font-bold flex items-center gap-1 transition-opacity hover:opacity-70 px-2 py-1" 
+        onClick={() => navigate('/discussion')}
+      >
+        <span className="text-lg leading-none inline-block -mt-0.5">‹</span> {t('players.back')}
+      </button>
       <motion.h2
         className="text-3xl font-black text-text-main text-center mb-2 tracking-wide"
         initial={{ y: -20, opacity: 0, scale: 0.8 }}
@@ -153,7 +159,7 @@ export function RevealScreen() {
         axis="y"
         values={orderedPlayers}
         onReorder={setOrderedPlayers}
-        className="w-full flex-1 flex flex-col gap-3 py-2 -mx-2 px-2 overflow-y-auto overflow-x-hidden custom-scrollbar"
+        className="w-full flex-1 flex flex-col gap-3 py-2 overflow-y-auto custom-scrollbar"
       >
         {orderedPlayers.map((p, i) => {
           const isRevealed = revealedIds.has(p.id);
