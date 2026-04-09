@@ -177,28 +177,33 @@ export function RevealScreen() {
         {!isStampDismissed && isAllCorrect !== null && (
           <motion.div
             key="stamp-overlay"
-            className="fixed inset-0 z-[100] flex flex-col items-center justify-center p-4 bg-white/40 dark:bg-black/40 backdrop-blur-md"
+            className="fixed inset-0 z-[100] flex flex-col items-center justify-center p-4 bg-black/40 backdrop-blur-lg"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
           >
+            {/* スタンプ本体: 背景をぼかし付きの濃い白にし、色をハッキリさせる */}
             <motion.div
-              className={`relative z-10 flex items-center justify-center px-10 py-4 md:px-16 md:py-6 border-[8px] md:border-[12px] border-double rounded-[2rem] 
-                ${isAllCorrect ? 'border-green text-green' : 'border-red text-red'} bg-white/60
+              className={`relative z-10 flex items-center justify-center px-10 py-5 md:px-16 md:py-8 border-[6px] md:border-[10px] rounded-3xl md:rounded-[2.5rem] 
+                ${isAllCorrect ? 'border-green text-green' : 'border-red text-red'} bg-white/95
               `}
               style={{
-                boxShadow: isAllCorrect ? '0 0 60px rgba(46, 213, 115, 0.4), inset 0 0 40px rgba(46, 213, 115, 0.3)' : '0 0 60px rgba(255, 71, 87, 0.4), inset 0 0 40px rgba(255, 71, 87, 0.3)',
+                boxShadow: '0 20px 50px rgba(0,0,0,0.3)',
                 transformOrigin: 'center'
               }}
-              initial={{ scale: 4, opacity: 0, rotate: 20 }}
-              animate={{ scale: 1, opacity: 1, rotate: -10 }}
+              initial={{ scale: 3.5, opacity: 0, rotate: 25 }}
+              animate={{ scale: 1, opacity: 1, rotate: -8 }}
               exit={{ opacity: 0, scale: 0.8 }}
-              transition={{ delay: 0.2, type: 'spring', stiffness: 350, damping: 12, mass: 1 }}
+              transition={{ delay: 0.2, type: 'spring', stiffness: 450, damping: 15, mass: 1.2 }}
             >
+              {/* スタンプの枠線を二重線風に見せるための内側の枠線 */}
+              <div className={`absolute inset-2 md:inset-3 border-[3px] md:border-[5px] rounded-2xl md:rounded-[1.8rem] opacity-70 ${isAllCorrect ? 'border-green' : 'border-red'}`} />
+              
+              {/* テキスト本体： 白フチのようなドロップシャドウをつけてどんな環境でも文字を目立たせる */}
               <h2 
-                className="text-6xl md:text-8xl font-black tracking-widest uppercase font-display"
+                className="relative z-10 text-6xl md:text-8xl font-black tracking-widest uppercase font-display"
                 style={{ 
-                  textShadow: isAllCorrect ? '0 6px 30px rgba(46, 213, 115, 0.9)' : '0 6px 30px rgba(255, 71, 87, 0.9)'
+                  WebkitTextStroke: isAllCorrect ? '1px var(--color-green)' : '1px var(--color-red)'
                 }}
               >
                 {isAllCorrect ? t('reveal.success') : t('reveal.fail')}
@@ -207,10 +212,10 @@ export function RevealScreen() {
 
             {/* スタンプ後に下から遅れて表示されるボタン群 */}
             <motion.div
-              className="mt-16 w-full max-w-[320px] flex flex-col gap-4 z-20"
+              className="mt-20 w-full max-w-[320px] flex flex-col gap-4 z-20"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1.2, duration: 0.5, type: 'spring' }}
+              transition={{ delay: 1, duration: 0.5, type: 'spring' }}
             >
               <Button variant="secondary" size="lg" onClick={() => setIsStampDismissed(true)} className="w-full py-4 !bg-white/80 hover:!bg-white">
                 点数を確認する
@@ -242,31 +247,34 @@ export function RevealScreen() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.6 }}
       >
-        {!allRevealed && (
-          <motion.button
-            className="text-sm font-bold text-text-secondary hover:text-blue transition-colors py-2 bg-white/40 hover:bg-white/60 backdrop-blur-sm rounded-full w-40 mx-auto"
-            onClick={handleRevealAll}
-            whileTap={{ scale: 0.95 }}
-          >
-            {t('reveal.showAll')}
-          </motion.button>
-        )}
-        {mode === 'insider' ? (
-          <Button variant="primary" size="lg" onClick={handleToVote} className="py-4">
-            {t('reveal.toVote')}
-          </Button>
+        {!allRevealed ? (
+          // まだ全員のカードが開かれていない場合：結果を見るボタンだけをメインにする
+          <div className="flex w-full items-center justify-center">
+            <Button variant="primary" size="lg" onClick={handleRevealAll} className="py-4 shadow-lg shadow-blue/20">
+              {t('reveal.showAll')}
+            </Button>
+          </div>
         ) : (
-          <Button variant="primary" size="lg" onClick={handlePlayAgain} className="py-4">
-            {t('reveal.playAgain')}
-          </Button>
+          // 全員のカードが開かれた後（結果判明後）：次のフローへ進むボタンとホームボタンを出す
+          <>
+            {mode === 'insider' ? (
+              <Button variant="primary" size="lg" onClick={handleToVote} className="py-4 shadow-lg shadow-indigo-500/30">
+                {t('reveal.toVote')}
+              </Button>
+            ) : (
+              <Button variant="primary" size="lg" onClick={handlePlayAgain} className="py-4 shadow-lg shadow-orange/30">
+                {t('reveal.playAgain')}
+              </Button>
+            )}
+            <motion.button
+              className="text-sm font-bold text-text-muted hover:text-text-main transition-colors py-2 mt-2"
+              onClick={handleGoHome}
+              whileTap={{ scale: 0.95 }}
+            >
+              {t('reveal.home')}
+            </motion.button>
+          </>
         )}
-        <motion.button
-          className="text-sm font-bold text-text-muted hover:text-text-main transition-colors py-2"
-          onClick={handleGoHome}
-          whileTap={{ scale: 0.95 }}
-        >
-          {t('reveal.home')}
-        </motion.button>
       </motion.div>
     </div>
   );
