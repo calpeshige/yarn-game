@@ -176,24 +176,33 @@ export function RevealScreen() {
         {isAllCorrect !== null && (
           <motion.div
             className="fixed inset-0 z-[100] flex items-center justify-center pointer-events-none"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
           >
             <motion.div
-              className="absolute inset-0 bg-black/40 pointer-events-none"
+              className="absolute inset-0 bg-white/20 backdrop-blur-sm shadow-[inset_0_0_100px_rgba(0,0,0,0.1)]"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ duration: 0.3 }}
+              transition={{ duration: 0.5 }}
             />
-            <motion.p
-              className={`relative text-5xl font-black tracking-widest drop-shadow-[0_4px_20px_rgba(0,0,0,0.3)] ${isAllCorrect ? 'text-green' : 'text-red'}`}
-              initial={{ scale: 0, rotate: -10 }}
-              animate={{ scale: 1, rotate: 0 }}
-              transition={{ delay: 0.2, type: 'spring', stiffness: 200, damping: 12 }}
+            <motion.div
+              className={`relative z-10 flex items-center justify-center px-10 py-4 md:px-16 md:py-6 border-[8px] md:border-[12px] border-double rounded-[2rem] ${isAllCorrect ? 'border-green text-green' : 'border-red text-red'} bg-white/10`}
+              style={{
+                boxShadow: isAllCorrect ? '0 0 50px rgba(46, 213, 115, 0.4), inset 0 0 30px rgba(46, 213, 115, 0.4)' : '0 0 50px rgba(255, 71, 87, 0.4), inset 0 0 30px rgba(255, 71, 87, 0.4)',
+                transformOrigin: 'center'
+              }}
+              initial={{ scale: 4, opacity: 0, rotate: 20 }}
+              animate={{ scale: 1, opacity: 0.85, rotate: -10 }}
+              exit={{ opacity: 0, scale: 0.8 }}
+              transition={{ delay: 0.2, type: 'spring', stiffness: 350, damping: 12, mass: 1 }}
             >
-              {isAllCorrect ? t('reveal.success') : t('reveal.fail')}
-            </motion.p>
+              <h2 
+                className="text-6xl md:text-8xl font-black tracking-widest uppercase font-display"
+                style={{ 
+                  textShadow: isAllCorrect ? '0 4px 30px rgba(46, 213, 115, 0.8)' : '0 4px 30px rgba(255, 71, 87, 0.8)'
+                }}
+              >
+                {isAllCorrect ? t('reveal.success') : t('reveal.fail')}
+              </h2>
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
