@@ -213,9 +213,9 @@ export function RevealScreen() {
             {/* スタンプ後に下から遅れて表示されるボタン群 */}
             <motion.div
               className="mt-20 w-full max-w-[320px] flex flex-col gap-4 z-20"
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1, duration: 0.5, type: 'spring' }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 1.2, duration: 0.3 }}
             >
               <Button variant="secondary" size="lg" onClick={() => setIsStampDismissed(true)} className="w-full py-4 !bg-white/80 hover:!bg-white">
                 点数を確認する
@@ -225,17 +225,19 @@ export function RevealScreen() {
                   {t('reveal.toVote')}
                 </Button>
               ) : (
-                <Button variant="primary" size="lg" onClick={handlePlayAgain} className="w-full py-4 shadow-lg shadow-blue/30">
-                  {t('reveal.playAgain')}
-                </Button>
+                <>
+                  <Button variant="primary" size="lg" onClick={handlePlayAgain} className="w-full py-4 shadow-lg shadow-blue/30">
+                    {t('reveal.playAgain')}
+                  </Button>
+                  <motion.button
+                    className="text-sm font-bold text-text-main/80 hover:text-text-main transition-colors py-2 bg-white/50 backdrop-blur-sm rounded-full mt-2"
+                    onClick={handleGoHome}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    {t('reveal.home')}
+                  </motion.button>
+                </>
               )}
-              <motion.button
-                className="text-sm font-bold text-text-main/80 hover:text-text-main transition-colors py-2 bg-white/50 backdrop-blur-sm rounded-full mt-2"
-                onClick={handleGoHome}
-                whileTap={{ scale: 0.95 }}
-              >
-                {t('reveal.home')}
-              </motion.button>
             </motion.div>
           </motion.div>
         )}
@@ -262,17 +264,19 @@ export function RevealScreen() {
                 {t('reveal.toVote')}
               </Button>
             ) : (
-              <Button variant="primary" size="lg" onClick={handlePlayAgain} className="py-4 shadow-lg shadow-orange/30">
-                {t('reveal.playAgain')}
-              </Button>
+              <>
+                <Button variant="primary" size="lg" onClick={handlePlayAgain} className="py-4 shadow-lg shadow-orange/30">
+                  {t('reveal.playAgain')}
+                </Button>
+                <motion.button
+                  className="text-sm font-bold text-text-muted hover:text-text-main transition-colors py-2 mt-2"
+                  onClick={handleGoHome}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  {t('reveal.home')}
+                </motion.button>
+              </>
             )}
-            <motion.button
-              className="text-sm font-bold text-text-muted hover:text-text-main transition-colors py-2 mt-2"
-              onClick={handleGoHome}
-              whileTap={{ scale: 0.95 }}
-            >
-              {t('reveal.home')}
-            </motion.button>
           </>
         )}
       </motion.div>
