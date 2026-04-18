@@ -1,13 +1,10 @@
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence, Reorder, useDragControls } from 'framer-motion';
 import { useGameStore } from '../stores/gameStore';
 import { useT } from '../i18n';
 import { Button } from '../components/Button';
 import type { Player } from '../types/game';
-
-const LONG_PRESS_MS = 350;
-const MOVE_THRESHOLD = 8;
 
 const TILE_COLORS = [
   { bg: 'linear-gradient(135deg, #FF4757, #FF6B7A)', glow: 'rgba(255, 71, 87, 0.4)' },
@@ -30,79 +27,46 @@ function PlayerReorderItem({ player, index, color, isRevealed, onToggle }: {
   onToggle: () => void;
 }) {
   const dragControls = useDragControls();
-  const [isDragReady, setIsDragReady] = useState(false);
-  const longPressTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const startPos = useRef<{ x: number; y: number } | null>(null);
-  const dragStarted = useRef(false);
-
-  const cancelLongPress = () => {
-    if (longPressTimer.current) {
-      clearTimeout(longPressTimer.current);
-      longPressTimer.current = null;
-    }
-    setIsDragReady(false);
-  };
-
-  const handlePointerDown = (e: React.PointerEvent) => {
-    startPos.current = { x: e.clientX, y: e.clientY };
-    dragStarted.current = false;
-    longPressTimer.current = setTimeout(() => {
-      setIsDragReady(true);
-      dragStarted.current = true;
-      // バイブレーション（対応端末のみ）
-      if (navigator.vibrate) navigator.vibrate(40);
-      dragControls.start(e);
-    }, LONG_PRESS_MS);
-  };
-
-  const handlePointerMove = (e: React.PointerEvent) => {
-    if (!startPos.current || dragStarted.current) return;
-    const dx = Math.abs(e.clientX - startPos.current.x);
-    const dy = Math.abs(e.clientY - startPos.current.y);
-    if (dx > MOVE_THRESHOLD || dy > MOVE_THRESHOLD) {
-      // 長押し前に動いた = スクロール意図 → ドラッグキャンセル
-      cancelLongPress();
-    }
-  };
-
-  const handlePointerUp = () => {
-    cancelLongPress();
-    startPos.current = null;
-  };
 
   return (
     <Reorder.Item
       value={player}
       dragListener={false}
       dragControls={dragControls}
-      onPointerDown={handlePointerDown}
-      onPointerMove={handlePointerMove}
-      onPointerUp={handlePointerUp}
-      onPointerCancel={handlePointerUp}
-      onDragEnd={() => {
-        cancelLongPress();
-        dragStarted.current = false;
-      }}
-      className={`w-full flex flex-shrink-0 items-center gap-3 p-3.5 bg-white/70 backdrop-blur-xl rounded-2xl relative select-none transition-shadow ${isDragReady ? 'shadow-2xl ring-2 ring-blue/40' : ''} ${isRevealed ? 'text-white' : 'text-text-main border border-white/60 shadow-sm'}`}
-      style={{
-        touchAction: isDragReady ? 'none' : 'pan-y',
-        WebkitUserSelect: 'none',
-        WebkitTouchCallout: 'none',
-        ...(isRevealed ? {
-          background: color.bg,
-          border: '1px solid rgba(255,255,255,0.4)',
-        } : {}),
-      }}
+      className={`w-full flex flex-shrink-0 items-center gap-2 p-3.5 pl-2 bg-white/70 backdrop-blur-xl rounded-2xl relative select-none ${isRevealed ? 'text-white' : 'text-text-main border border-white/60 shadow-sm'}`}
+      style={isRevealed ? {
+        background: color.bg,
+        border: '1px solid rgba(255,255,255,0.4)',
+      } : {}}
       initial={{ opacity: 0, x: -30 }}
       animate={{
         opacity: 1,
         x: 0,
-        scale: isDragReady ? 1.04 : 1,
         transition: { delay: 0.15 + index * 0.08, type: 'spring' }
       }}
       transition={{ type: 'spring', stiffness: 500, damping: 30, mass: 0.8 }}
-      whileDrag={{ scale: 1.05, zIndex: 50 }}
+      whileDrag={{ scale: 1.04, zIndex: 50, boxShadow: '0 12px 40px rgba(0,0,0,0.18)' }}
     >
+      {/* ドラッグハンドル */}
+      <div
+        onPointerDown={(e) => {
+          e.preventDefault();
+          dragControls.start(e);
+        }}
+        className={`flex flex-col items-center justify-center w-10 h-12 cursor-grab active:cursor-grabbing rounded-xl transition-colors ${isRevealed ? 'text-white/80 hover:bg-white/10' : 'text-blue/70 hover:bg-blue/5'}`}
+        style={{ touchAction: 'none' }}
+        aria-label="長押しして並べ替え"
+      >
+        <svg width="18" height="18" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+          <circle cx="5" cy="3" r="1.5" />
+          <circle cx="11" cy="3" r="1.5" />
+          <circle cx="5" cy="8" r="1.5" />
+          <circle cx="11" cy="8" r="1.5" />
+          <circle cx="5" cy="13" r="1.5" />
+          <circle cx="11" cy="13" r="1.5" />
+        </svg>
+      </div>
+
       <span className={`font-black text-xl w-6 text-center font-display ${isRevealed ? 'text-white/80' : 'text-text-muted/40'}`}>{index + 1}</span>
       <span className={`font-bold text-lg truncate flex-1 ${isRevealed ? 'text-white' : 'text-text-main'}`}>
         {player.name}
