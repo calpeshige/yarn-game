@@ -1,10 +1,13 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { motion, AnimatePresence, Reorder } from 'framer-motion';
+import { motion, AnimatePresence, Reorder, useDragControls } from 'framer-motion';
 import { useGameStore } from '../stores/gameStore';
 import { useT } from '../i18n';
 import { Button } from '../components/Button';
 import type { Player } from '../types/game';
+
+const LONG_PRESS_MS = 350;
+const MOVE_THRESHOLD = 8;
 
 const TILE_COLORS = [
   { bg: 'linear-gradient(135deg, #FF4757, #FF6B7A)', glow: 'rgba(255, 71, 87, 0.4)' },
@@ -26,10 +29,61 @@ function PlayerReorderItem({ player, index, color, isRevealed, onToggle }: {
   isRevealed: boolean;
   onToggle: () => void;
 }) {
+  const dragControls = useDragControls();
+  const [isDragReady, setIsDragReady] = useState(false);
+  const longPressTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const startPos = useRef<{ x: number; y: number } | null>(null);
+  const dragStarted = useRef(false);
+
+  const cancelLongPress = () => {
+    if (longPressTimer.current) {
+      clearTimeout(longPressTimer.current);
+      longPressTimer.current = null;
+    }
+    setIsDragReady(false);
+  };
+
+  const handlePointerDown = (e: React.PointerEvent) => {
+    startPos.current = { x: e.clientX, y: e.clientY };
+    dragStarted.current = false;
+    longPressTimer.current = setTimeout(() => {
+      setIsDragReady(true);
+      dragStarted.current = true;
+      // バイブレーション（対応端末のみ）
+      if (navigator.vibrate) navigator.vibrate(40);
+      dragControls.start(e);
+    }, LONG_PRESS_MS);
+  };
+
+  const handlePointerMove = (e: React.PointerEvent) => {
+    if (!startPos.current || dragStarted.current) return;
+    const dx = Math.abs(e.clientX - startPos.current.x);
+    const dy = Math.abs(e.clientY - startPos.current.y);
+    if (dx > MOVE_THRESHOLD || dy > MOVE_THRESHOLD) {
+      // 長押し前に動いた = スクロール意図 → ドラッグキャンセル
+      cancelLongPress();
+    }
+  };
+
+  const handlePointerUp = () => {
+    cancelLongPress();
+    startPos.current = null;
+  };
+
   return (
     <Reorder.Item
       value={player}
-      className={`w-full flex flex-shrink-0 items-center gap-3 p-3.5 bg-white/70 backdrop-blur-xl rounded-2xl relative cursor-grab active:cursor-grabbing touch-none ${isRevealed ? 'text-white' : 'text-text-main border border-white/60 shadow-sm'}`}
+      dragListener={false}
+      dragControls={dragControls}
+      onPointerDown={handlePointerDown}
+      onPointerMove={handlePointerMove}
+      onPointerUp={handlePointerUp}
+      onPointerCancel={handlePointerUp}
+      onDragEnd={() => {
+        cancelLongPress();
+        dragStarted.current = false;
+      }}
+      className={`w-full flex flex-shrink-0 items-center gap-3 p-3.5 bg-white/70 backdrop-blur-xl rounded-2xl relative select-none transition-shadow ${isDragReady ? 'shadow-2xl ring-2 ring-blue/40' : ''} ${isRevealed ? 'text-white' : 'text-text-main border border-white/60 shadow-sm'}`}
       style={isRevealed ? {
         background: color.bg,
         border: '1px solid rgba(255,255,255,0.4)',
@@ -38,17 +92,18 @@ function PlayerReorderItem({ player, index, color, isRevealed, onToggle }: {
       animate={{
         opacity: 1,
         x: 0,
+        scale: isDragReady ? 1.04 : 1,
         transition: { delay: 0.15 + index * 0.08, type: 'spring' }
       }}
       transition={{ type: 'spring', stiffness: 500, damping: 30, mass: 0.8 }}
-      whileDrag={{ scale: 1.05, zIndex: 50, cursor: 'grabbing' }}
+      whileDrag={{ scale: 1.05, zIndex: 50 }}
     >
       <span className={`font-black text-xl w-6 text-center font-display ${isRevealed ? 'text-white/80' : 'text-text-muted/40'}`}>{index + 1}</span>
       <span className={`font-bold text-lg truncate flex-1 ${isRevealed ? 'text-white' : 'text-text-main'}`}>
         {player.name}
       </span>
       <button
-        className="touch-auto flex items-center justify-center min-w-[48px]"
+        className="flex items-center justify-center min-w-[48px]"
         onClick={(e) => { e.stopPropagation(); onToggle(); }}
         onPointerDown={(e) => e.stopPropagation()}
       >
