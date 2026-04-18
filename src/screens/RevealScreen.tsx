@@ -84,10 +84,15 @@ function PlayerReorderItem({ player, index, color, isRevealed, onToggle }: {
         dragStarted.current = false;
       }}
       className={`w-full flex flex-shrink-0 items-center gap-3 p-3.5 bg-white/70 backdrop-blur-xl rounded-2xl relative select-none transition-shadow ${isDragReady ? 'shadow-2xl ring-2 ring-blue/40' : ''} ${isRevealed ? 'text-white' : 'text-text-main border border-white/60 shadow-sm'}`}
-      style={isRevealed ? {
-        background: color.bg,
-        border: '1px solid rgba(255,255,255,0.4)',
-      } : {}}
+      style={{
+        touchAction: isDragReady ? 'none' : 'pan-y',
+        WebkitUserSelect: 'none',
+        WebkitTouchCallout: 'none',
+        ...(isRevealed ? {
+          background: color.bg,
+          border: '1px solid rgba(255,255,255,0.4)',
+        } : {}),
+      }}
       initial={{ opacity: 0, x: -30 }}
       animate={{
         opacity: 1,

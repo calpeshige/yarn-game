@@ -35,6 +35,20 @@
 }
 
 @layer base {
+  html, body {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    overscroll-behavior: none;
+  }
+
+  /* テキスト入力系では選択を許可 */
+  input, textarea, [contenteditable] {
+    -webkit-user-select: text;
+    user-select: text;
+  }
+
   body {
     @apply bg-bg-base text-text-main antialiased;
     min-height: 100dvh;
