@@ -34,7 +34,7 @@ const dict = {
 
   // Player Setup
   'players.title': { ja: 'プレイヤー登録', en: 'Player Setup' },
-  'players.instruction': { ja: 'プレイヤーを追加（2〜10人）', en: 'Add players (2-10)' },
+  'players.instruction': { ja: 'プレイヤーを追加（2〜100人）', en: 'Add players (2-100)' },
   'players.placeholder': { ja: '名前を入力...', en: 'Enter name...' },
   'players.add': { ja: '追加', en: 'Add' },
   'players.count': { ja: '人参加', en: ' players' },

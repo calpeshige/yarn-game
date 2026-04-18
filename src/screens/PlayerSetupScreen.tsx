@@ -19,7 +19,7 @@ export function PlayerSetupScreen() {
 
   const handleAdd = () => {
     const trimmed = name.trim();
-    if (!trimmed || players.length >= 10) return;
+    if (!trimmed || players.length >= 100) return;
     addPlayer(trimmed);
     setName('');
   };
@@ -96,7 +96,7 @@ export function PlayerSetupScreen() {
         <motion.button
           className="h-14 px-5 rounded-2xl shrink-0 bg-white/70 backdrop-blur-md border border-white/80 shadow-[0_4px_15px_rgba(0,0,0,0.05)] text-blue font-black disabled:opacity-50 transition-all hover:bg-white"
           onClick={handleAdd}
-          disabled={!name.trim() || players.length >= 10}
+          disabled={!name.trim() || players.length >= 100}
           whileTap={{ scale: 0.95 }}
         >
           {t('players.add')}
