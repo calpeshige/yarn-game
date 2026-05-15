@@ -4,6 +4,7 @@ import { motion, AnimatePresence, Reorder, useDragControls } from 'framer-motion
 import { useGameStore } from '../stores/gameStore';
 import { useT } from '../i18n';
 import { Button } from '../components/Button';
+import { BackButton } from '../components/BackButton';
 import type { Player } from '../types/game';
 
 const TILE_COLORS = [
@@ -152,12 +153,7 @@ export function RevealScreen() {
 
   return (
     <div className="screen-container pt-6 pb-8 justify-start h-full relative">
-      <button 
-        className="absolute top-6 left-4 z-50 text-sm text-text-muted hover:text-text-main font-bold flex items-center gap-1 transition-opacity hover:opacity-70 px-2 py-1" 
-        onClick={() => navigate('/discussion')}
-      >
-        <span className="text-lg leading-none inline-block -mt-0.5">‹</span> {t('players.back')}
-      </button>
+      <BackButton onClick={() => navigate('/discussion')} />
       <motion.h2
         className="text-3xl font-black text-text-main text-center mb-2 tracking-wide"
         initial={{ y: -20, opacity: 0, scale: 0.8 }}

@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useGameStore } from '../stores/gameStore';
 import { useT, useLangStore } from '../i18n';
 import { Button } from '../components/Button';
+import { BackButton } from '../components/BackButton';
 
 export function InsiderResultScreen() {
   const navigate = useNavigate();
@@ -53,12 +54,7 @@ export function InsiderResultScreen() {
 
   return (
     <div className="screen-container pt-8 justify-start h-full pb-8 relative">
-      <button 
-        className="absolute top-6 left-4 z-50 text-sm text-text-muted hover:text-text-main font-bold flex items-center gap-1 transition-opacity hover:opacity-70 px-2 py-1" 
-        onClick={() => navigate('/insider-vote')}
-      >
-        <span className="text-lg leading-none inline-block -mt-0.5">‹</span> {t('players.back')}
-      </button>
+      <BackButton onClick={() => navigate('/insider-vote')} />
       <h2 className="text-3xl font-black text-text-main text-center mb-6 tracking-wide drop-shadow-sm">
         {t('result.title')}
       </h2>

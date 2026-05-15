@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { useGameStore } from '../stores/gameStore';
 import { useT } from '../i18n';
 import { Button } from '../components/Button';
+import { BackButton } from '../components/BackButton';
 
 export function InsiderVoteScreen() {
   const navigate = useNavigate();
@@ -59,12 +60,7 @@ export function InsiderVoteScreen() {
   if (showPass) {
     return (
       <div className="screen-container justify-center relative">
-        <button 
-          className="absolute top-6 left-4 z-50 text-sm text-text-muted hover:text-text-main font-bold flex items-center gap-1 transition-opacity hover:opacity-70 px-2 py-1" 
-          onClick={handleBack}
-        >
-          <span className="text-lg leading-none inline-block -mt-0.5">‹</span> {t('players.back')}
-        </button>
+        <BackButton onClick={handleBack} />
         <div key={currentVoter.id} className="w-full flex flex-col items-center flex-1 justify-center relative z-20">
           <div className="bg-white/80 backdrop-blur-2xl rounded-3xl p-10 flex flex-col items-center justify-center w-full max-w-[340px] shadow-[0_12px_40px_rgba(0,0,0,0.1)] border border-white mb-10">
             <p className="text-sm font-bold text-text-muted mb-2 tracking-widest">{t('vote.pass')}</p>
@@ -92,12 +88,7 @@ export function InsiderVoteScreen() {
 
   return (
     <div className="screen-container pt-6 relative">
-      <button 
-        className="absolute top-6 left-4 z-50 text-sm text-text-muted hover:text-text-main font-bold flex items-center gap-1 transition-opacity hover:opacity-70 px-2 py-1" 
-        onClick={handleBack}
-      >
-        <span className="text-lg leading-none inline-block -mt-0.5">‹</span> {t('players.back')}
-      </button>
+      <BackButton onClick={handleBack} />
       <h2 className="text-3xl font-black text-text-main text-center mb-2 tracking-wide mt-2">
         {t('vote.title')}
       </h2>

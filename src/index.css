@@ -65,7 +65,7 @@
 
   /* Utility container for screens */
   .screen-container {
-    @apply flex flex-col items-center flex-1 w-full max-w-[480px] mx-auto px-4 pt-6 pb-[max(1.5rem,env(safe-area-inset-bottom))] z-10 relative;
+    @apply flex flex-col items-center flex-1 w-full max-w-[480px] mx-auto px-4 pt-[max(1.5rem,calc(env(safe-area-inset-top)+0.5rem))] pb-[max(1.5rem,env(safe-area-inset-bottom))] z-10 relative;
   }
 
   /* 3D Utilities */

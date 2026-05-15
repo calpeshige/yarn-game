@@ -5,6 +5,7 @@ import { useGameStore } from '../stores/gameStore';
 import { useT } from '../i18n';
 import { Card } from '../components/Card';
 import { Button } from '../components/Button';
+import { BackButton } from '../components/BackButton';
 
 export function CardPeekScreen() {
   const navigate = useNavigate();
@@ -63,12 +64,7 @@ export function CardPeekScreen() {
   if (showPass) {
     return (
       <div className="screen-container justify-center relative">
-        <button 
-          className="absolute top-6 left-4 z-50 text-sm text-text-muted hover:text-text-main font-bold flex items-center gap-1 transition-opacity hover:opacity-70 px-2 py-1" 
-          onClick={handleBack}
-        >
-          <span className="text-lg leading-none inline-block -mt-0.5">‹</span> {t('players.back')}
-        </button>
+        <BackButton onClick={handleBack} />
         <AnimatePresence mode="wait">
           <motion.div
             key={currentPlayer.id}
@@ -125,17 +121,8 @@ export function CardPeekScreen() {
 
   return (
     <div className="screen-container relative">
-      <motion.p
-        className="text-sm font-bold text-text-secondary text-center mt-6 mb-8 block opacity-80"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.5 }}
-      >
-        {isRevealed ? t('peek.tapToHide') : t('peek.tapToReveal')}
-      </motion.p>
-
       <motion.div
-        className="flex-1 flex flex-col items-center justify-center gap-6 w-full perspective-1000"
+        className="flex-1 flex flex-col items-center justify-center gap-4 w-full perspective-1000"
         initial={{ scale: 0.8, opacity: 0, rotateZ: -5 }}
         animate={{ scale: 1, opacity: 1, rotateZ: 0 }}
         transition={{ duration: 0.6, type: 'spring', stiffness: 150, damping: 15 }}
@@ -151,6 +138,14 @@ export function CardPeekScreen() {
             </div>
           ))}
         </div>
+        <motion.p
+          className="text-sm font-bold text-text-secondary text-center block opacity-80"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.5 }}
+        >
+          {isRevealed ? t('peek.tapToHide') : t('peek.tapToReveal')}
+        </motion.p>
       </motion.div>
 
       {isInsider && isRevealed && (
